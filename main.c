@@ -46,22 +46,28 @@ char *_strtok(char *str, const char *delim)
 char *d_space(char *str)
 {
 	size_t i = 0;
+	int letter = 0;
 
 	while (str && str[i])
 	{
-		if (str[i] == ' ')
+		if (str[i] == ' ' && letter == 0)
 		{
-			str++;
+			++str;
 			continue;
 		}
-		i++;
+		if (str[i] == ' ' && letter == 1)
+		{
+			str[i] = '\0';
+		}
+		++i;
+		letter = 1;
 	}
 	return (str);
 }
 
 int main(int argc, char *argv[], char *envp[])
 {
-       	char *buffer, *pure;
+	char *buffer, *pure;
 	size_t len = 0;
 	int get, pid;
 	char *argv1[] = {"", NULL};
@@ -69,7 +75,7 @@ int main(int argc, char *argv[], char *envp[])
 	{
 		printf("($) ");
 		get = getline(&buffer, &len, stdin);
-		strtok(buffer, "\n");
+		buffer[get - 1] = '\0';
 		pure = d_space(buffer);
 		//	printf("%s", pure);
 		if (!strcmp(pure, "exit"))
