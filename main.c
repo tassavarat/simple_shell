@@ -1,23 +1,23 @@
 #include "simple_shell.h"
 
-int main(int argc, char *argv[], char *envp[])
+int main()
 {
-	char *buffer;
-	(void)argc;
-	(void)argv;
+	char *buffer = NULL;
 	size_t len = 0, i = 0;
 	int get, pid;
-	char **arr;
+	char **arr = NULL;
 	//print_env();
 	while(18)
 	{
 		i++;
-		_puts("($) "); //printf("($) ");
+		//_puts("($) ");
+		printf("($) ");
 		get = getline(&buffer, &len, stdin);
 		buffer[get - 1] = '\0';
 		arr = tokarr(buffer);
 		if (!arr[0])
 		{
+			free(arr);
 			continue;
 		}
 		if (!strcmp(arr[0], "exit"))
@@ -46,7 +46,7 @@ int main(int argc, char *argv[], char *envp[])
 		}
 		if (pid == 0)
 		{
-			if (execve(arr[0], arr, envp) == -1)
+			if (execve(arr[0], arr, NULL) == -1)
 			{
 				dprintf(2, "Hey %ld\n", i);
 				//perror(NULL);
@@ -58,10 +58,9 @@ int main(int argc, char *argv[], char *envp[])
 		else
 		{
 			wait(NULL);
-			continue;
 		}
 		free(arr);
-		free(buffer);
 	}
+	free(buffer);
 	return (0);
 }
