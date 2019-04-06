@@ -6,44 +6,6 @@
 #include <unistd.h>
 
 /**
- * _strtok - compares two strings
- * @s1: first string
- * @s2: second string
- *
- * Return: returns the differences of ASCII characters
- */
-
-char *_strtok(char *str, const char *delim)
-{
-	static char *sp;
-	char *p;
-	int letter = 0;
-
-	if (str)
-		sp = str;
-	p = sp;
-	while (sp && *sp)
-	{
-		if (*sp == *delim && *(sp + 1) == *delim)
-		{
-			sp++;
-			continue;
-		}
-		if (*sp == *delim && letter == 1)
-		{
-			*sp = '\0';
-			//sp++;
-		}
-		letter = 1;
-		sp++;
-	}
-	if (!p || *p == '\0')
-		return (NULL);
-	return (p);
-}
-
-
-/**
  * d_space - compares two strings
  * @s1: first string
  * @s2: second string
@@ -71,6 +33,38 @@ char *d_space(char *str)
 		letter = 1;
 	}
 	return (str);
+}
+
+
+/**
+ * _strtok - compares two strings
+ * @s1: first string
+ * @s2: second string
+ *
+ * Return: returns the differences of ASCII characters
+ */
+
+char *_strtok(char *str, const char *delim)
+{
+	static char *sp;
+	char *p, *s;
+
+	if (str)
+		sp = str;
+	p = sp;
+	while (sp && *sp)
+	{
+		if (*sp == *delim)
+		{
+			*sp++ = '\0';
+			break;
+		}
+		sp++;
+	}
+	if (!p || *p == '\0')
+		return (NULL);
+	s = d_space(p);
+	return (s);
 }
 
 /**
@@ -118,50 +112,53 @@ int main(int argc, char *argv[], char *envp[])
 	char *buffer, *pure;
 	size_t len = 0;
 	int get, pid;
-	char *argv1[] = {"", NULL};
-	char str[] = "Hello    World Hi     ";
-	char **tim = tokarr(str);
-	while (tim[len])
+	char **arr;
+	/* char *argv1[] = {"", NULL}; */
+	/* char str[] = "Hello    World     Hi    "; */
+	/* char **arr; */
+	/* while (tim[len]) */
+	/* { */
+	/* 	printf("%s\n", tim[len]); */
+	/* 	len++; */
+	/* } */
+	while(18)
 	{
-		printf("%s\n", tim[len]);
-		len++;
+		printf("($) ");
+		get = getline(&buffer, &len, stdin);
+		buffer[get - 1] = '\0';
+		//pure = d_space(buffer);
+		//arr = tokarr(pure);
+		arr = tokarr(buffer);
+		//	printf("%s", pure);
+		if (!strcmp(arr[0], "exit"))
+		{
+			exit(98);
+		}
+		if (get == -1)
+		{
+			printf("\n");
+			break;
+		}
+		pid = fork();
+		if (pid < 0)
+		{
+			printf("Continue");
+			continue;
+		}
+		if (pid == 0)
+		{
+			if (execve(arr[0], arr, NULL) == -1)
+			{
+				perror("Error:");
+				return (-1);
+			}
+		}
+		else
+		{
+			wait(NULL);
+			continue;
+		}
 	}
-	/*while(18)
-	  {
-		 printf("($) ");
-		 get = getline(&buffer, &len, stdin);
-		 buffer[get - 1] = '\0';
-		 pure = d_space(buffer);
-		 //	printf("%s", pure);
-		 if (!strcmp(pure, "exit"))
-		 {
-			 exit(98);
-		 }
-		 if (get == -1)
-		 {
-			 printf("\n");
-			 break;
-		 }
-		 pid = fork();
-		 if (pid < 0)
-		 {
-			 printf("Continue");
-			 continue;
-		 }
-		 if (pid == 0)
-		 {
-			 if (execve(pure, argv1, NULL) == -1)
-			 {
-				 perror("Error:");
-				 return (-1);
-			 }
-		 }
-		 else
-		 {
-			 wait(NULL);
-			 continue;
-		 }
-		 }
-		 free(buffer);*/
+	free(buffer);
 	return (0);
 }
