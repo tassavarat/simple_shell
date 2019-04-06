@@ -125,8 +125,8 @@ int main(int argc, char *argv[], char *envp[])
 		 arr = tokarr(buffer);
 		 while (arr[i])
 		 {
-			d_space(arr[i]);
-			i++;
+			 d_space(arr[i]);
+		 	i++;
 		 }
 		 if (!strcmp(arr[0], "exit"))
 		 {
