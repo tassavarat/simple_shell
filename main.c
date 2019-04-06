@@ -12,7 +12,6 @@
  *
  * Return: returns the differences of ASCII characters
  */
-
 char *_strtok(char *str, const char *delim)
 {
 	static char *sp;
@@ -24,24 +23,24 @@ char *_strtok(char *str, const char *delim)
 	p = sp;
 	while (sp && *sp)
 	{
-		if (*sp == *delim && *(sp + 1) == *delim)
+		if (*sp == *delim && letter == 0)
 		{
-			sp++;
+			++p;
+			++sp;
 			continue;
 		}
 		if (*sp == *delim && letter == 1)
 		{
-			*sp = '\0';
-			//sp++;
+			*sp++ = '\0';
+			break;
 		}
 		letter = 1;
-		sp++;
+		++sp;
 	}
 	if (!p || *p == '\0')
 		return (NULL);
 	return (p);
 }
-
 
 /**
  * d_space - compares two strings
@@ -50,7 +49,6 @@ char *_strtok(char *str, const char *delim)
  *
  * Return: returns the differences of ASCII characters
  */
-
 char *d_space(char *str)
 {
 	size_t i = 0;
@@ -67,8 +65,8 @@ char *d_space(char *str)
 		{
 			str[i] = '\0';
 		}
-		++i;
 		letter = 1;
+		++i;
 	}
 	return (str);
 }
@@ -80,7 +78,6 @@ char *d_space(char *str)
  *
  * Return: returns the differences of ASCII characters
  */
-
 char  **tokarr(char *str)
 {
 	char *token;
@@ -99,7 +96,6 @@ char  **tokarr(char *str)
 		i++;
 	}
 	arr = malloc(sizeof(char *) * (count + 1));
-
 	token = _strtok(str, " ");
 	while (token)
 	{
@@ -107,33 +103,39 @@ char  **tokarr(char *str)
 		t++;
 		token = _strtok(NULL, " ");
 	}
+	arr[t] = NULL;
 	return (arr);
-
-
 }
 
 
 int main(int argc, char *argv[], char *envp[])
 {
 	char *buffer, *pure;
-	size_t len = 0;
+	size_t len = 0, i = 0;
 	int get, pid;
-	char *argv1[] = {"", NULL};
-	char str[] = "Hello    World Hi     ";
+	char **arr;
+	/*char *argv1[] = {"", NULL};
+	char str[] = "   Hello   World Hi   ";
 	char **tim = tokarr(str);
 	while (tim[len])
 	{
 		printf("%s\n", tim[len]);
 		len++;
-	}
-	/*while(18)
-	  {
+	}*/
+	while(18)
+	{
 		 printf("($) ");
 		 get = getline(&buffer, &len, stdin);
 		 buffer[get - 1] = '\0';
-		 pure = d_space(buffer);
+		 arr = tokarr(buffer);
+		 /* pure = d_space(buffer); */
 		 //	printf("%s", pure);
-		 if (!strcmp(pure, "exit"))
+		 while (arr[i])
+		 {
+			d_space(arr[i]);
+			i++;
+		 }
+		 if (!strcmp(arr[0], "exit"))
 		 {
 			 exit(98);
 		 }
@@ -150,7 +152,7 @@ int main(int argc, char *argv[], char *envp[])
 		 }
 		 if (pid == 0)
 		 {
-			 if (execve(pure, argv1, NULL) == -1)
+			 if (execve(arr[0], arr, NULL) == -1)
 			 {
 				 perror("Error:");
 				 return (-1);
@@ -161,7 +163,7 @@ int main(int argc, char *argv[], char *envp[])
 			 wait(NULL);
 			 continue;
 		 }
-		 }
-		 free(buffer);*/
+	}
+	free(buffer);
 	return (0);
 }
