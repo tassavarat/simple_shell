@@ -119,43 +119,43 @@ int main(int argc, char *argv[], char *envp[])
 
 	while(18)
 	{
-		 printf("($) ");
-		 get = getline(&buffer, &len, stdin);
-		 buffer[get - 1] = '\0';
-		 arr = tokarr(buffer);
-		 while (arr[i])
-		 {
+		printf("($) ");
+		get = getline(&buffer, &len, stdin);
+		buffer[get - 1] = '\0';
+		arr = tokarr(buffer);
+		while (arr[i])
+		{
 			d_space(arr[i]);
 			i++;
-		 }
-		 if (!strcmp(arr[0], "exit"))
-		 {
-			 exit(98);
-		 }
-		 if (get == -1)
-		 {
-			 printf("\n");
-			 break;
-		 }
-		 pid = fork();
-		 if (pid < 0)
-		 {
-			 printf("Continue");
-			 continue;
-		 }
-		 if (pid == 0)
-		 {
-			 if (execve(arr[0], arr, NULL) == -1)
-			 {
-				 perror("Error:");
-				 return (-1);
-			 }
-		 }
-		 else
-		 {
-			 wait(NULL);
-			 continue;
-		 }
+		}
+		if (!strcmp(arr[0], "exit"))
+		{
+			exit(98);
+		}
+		if (get == -1)
+		{
+			printf("\n");
+			break;
+		}
+		pid = fork();
+		if (pid < 0)
+		{
+			printf("Continue");
+			continue;
+		}
+		if (pid == 0)
+		{
+			if (execve(arr[0], arr, NULL) == -1)
+			{
+				perror("Error:");
+				return (-1);
+			}
+		}
+		else
+		{
+			wait(NULL);
+			continue;
+		}
 	}
 	free(buffer);
 	return (0);
