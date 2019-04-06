@@ -54,7 +54,7 @@ char *_strtok(char *str, const char *delim)
 	p = sp;
 	while (sp && *sp)
 	{
-		if (*sp == *delim)
+		if (*sp == *delim && *(sp + 1) != *delim)
 		{
 			*sp++ = '\0';
 			break;
@@ -101,6 +101,7 @@ char  **tokarr(char *str)
 		t++;
 		token = _strtok(NULL, " ");
 	}
+	arr[t] = NULL;
 	return (arr);
 
 
@@ -110,7 +111,7 @@ char  **tokarr(char *str)
 int main(int argc, char *argv[], char *envp[])
 {
 	char *buffer, *pure;
-	size_t len = 0;
+	size_t len = 0, i = 0;
 	int get, pid;
 	char **arr;
 	/* char *argv1[] = {"", NULL}; */
@@ -129,6 +130,11 @@ int main(int argc, char *argv[], char *envp[])
 		//pure = d_space(buffer);
 		//arr = tokarr(pure);
 		arr = tokarr(buffer);
+		while (arr[i])
+		{
+			d_space(arr[i]);
+			i++;
+		}
 		//	printf("%s", pure);
 		if (!strcmp(arr[0], "exit"))
 		{
