@@ -6,11 +6,12 @@
 #include <unistd.h>
 
 /**
- * _strtok - compares two strings
- * @s1: first string
- * @s2: second string
+ * _strtok - Splits a string
+ * @str: String being evaluated
+ * @delim: Delimiter
  *
- * Return: returns the differences of ASCII characters
+ * Return: An array of each word of the string
+ * Null on error
  */
 char *_strtok(char *str, const char *delim)
 {
@@ -43,11 +44,10 @@ char *_strtok(char *str, const char *delim)
 }
 
 /**
- * d_space - compares two strings
- * @s1: first string
- * @s2: second string
+ * d_space - Removes leading and trailing spaces
+ * @str: String being evaluated
  *
- * Return: returns the differences of ASCII characters
+ * Return: Pointer to the string
  */
 char *d_space(char *str)
 {
@@ -72,11 +72,11 @@ char *d_space(char *str)
 }
 
 /**
- * tokarr - compares two strings
- * @s1: first string
- * @s2: second string
+ * tokarr - Creates a double array from tokens
+ * @str: String being evaluated
  *
- * Return: returns the differences of ASCII characters
+ * Return: Double array
+ * Null on failure
  */
 char  **tokarr(char *str)
 {
@@ -96,6 +96,8 @@ char  **tokarr(char *str)
 		i++;
 	}
 	arr = malloc(sizeof(char *) * (count + 1));
+	if (!arr)
+		return (NULL);
 	token = _strtok(str, " ");
 	while (token)
 	{
@@ -114,22 +116,13 @@ int main(int argc, char *argv[], char *envp[])
 	size_t len = 0, i = 0;
 	int get, pid;
 	char **arr;
-	/*char *argv1[] = {"", NULL};
-	char str[] = "   Hello   World Hi   ";
-	char **tim = tokarr(str);
-	while (tim[len])
-	{
-		printf("%s\n", tim[len]);
-		len++;
-	}*/
+
 	while(18)
 	{
 		 printf("($) ");
 		 get = getline(&buffer, &len, stdin);
 		 buffer[get - 1] = '\0';
 		 arr = tokarr(buffer);
-		 /* pure = d_space(buffer); */
-		 //	printf("%s", pure);
 		 while (arr[i])
 		 {
 			d_space(arr[i]);
