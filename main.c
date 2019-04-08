@@ -1,6 +1,6 @@
 #include "simple_shell.h"
 
-int main()
+int main(void)
 {
 	char *buffer = NULL;
 	size_t len = 0, i = 0;
@@ -31,7 +31,7 @@ int main()
 		/* 	printf("\033[2J"); */
 		/* 	continue; */
 		/* } */
-		if (get == -1)
+		if (get == EOF)
 		{
 			printf("\n");
 			free(arr);
@@ -46,10 +46,10 @@ int main()
 		}
 		if (pid == 0)
 		{
+			arr[0] = get_path(arr[0]);
 			if (execve(arr[0], arr, NULL) == -1)
 			{
-				dprintf(2, "Hey %ld\n", i);
-				//perror(NULL);
+				perror(NULL);
 				free(arr);
 				free(buffer);
 				return (-1);
