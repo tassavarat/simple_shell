@@ -28,5 +28,7 @@ void print_env(void);
 
 /* environment.c */
 char *_getenv(const char *name);
+char *_append(char *s, char *token, char *buff);
+char *get_path(char *s);
 
 #endif /*_SIMPLE_SHELL_H_*/
