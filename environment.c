@@ -53,10 +53,8 @@ char *get_path(char *s)
 
 	if (!str)
 		return (s);
-	printf("%s\n", str);
 	if (str[0] == ':')
 	{
-		printf("%s\n", str);
 		if (!stat(s, &st))
 			return (s);
 	}
