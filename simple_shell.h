@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <signal.h>
 #include <sys/stat.h>
+#include <errno.h>
 
 /* Symbolic constants */
 #define F_FLUSH -1
@@ -30,5 +31,8 @@ void print_env(void);
 char *_getenv(const char *name);
 char *_append(char *s, char *token, char *buff);
 char *get_path(char *s);
+
+/* shell.c */
+void _fork(char *buffer);
 
 #endif /*_SIMPLE_SHELL_H_*/
