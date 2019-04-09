@@ -36,5 +36,6 @@ char *get_path(char *s);
 void _fork(char *buffer, char **arr, size_t count);
 void _shell(void);
 char *convert(unsigned int num, int base);
+void signal_handler(int signum);
 
 #endif /*_SIMPLE_SHELL_H_*/
