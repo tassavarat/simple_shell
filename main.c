@@ -1,65 +1,30 @@
 #include "simple_shell.h"
 
+/**
+ * main - Simple shell
+ *
+ * Return: 0;
+ */
 int main(void)
 {
 	char *buffer = NULL;
-	size_t len = 0, i = 0;
-	int get, pid;
-	char **arr = NULL;
-	//print_env();
-	while(18)
+	size_t len = 0;
+	int get;
+
+	while (18)
 	{
-		i++;
-		//_puts("($) ");
-		printf("($) ");
+		if (isatty(STDIN_FILENO))
+		{
+			write(STDERR_FILENO, "TYPEIT:$ ", 9);
+		}
 		get = getline(&buffer, &len, stdin);
-		buffer[get - 1] = '\0';
-		arr = tokarr(buffer);
-		if (!arr[0])
-		{
-			free(arr);
-			continue;
-		}
-		if (!strcmp(arr[0], "exit"))
-		{
-			free(arr);
-			free(buffer);
-			exit(98);
-		}
-		/* if (!strcmp(arr[0], "clear")) */
-		/* { */
-		/* 	printf("\033[2J"); */
-		/* 	continue; */
-		/* } */
 		if (get == EOF)
 		{
-			printf("\n");
-			free(arr);
-			free(buffer);
+			if (isatty(STDIN_FILENO))
+				printf("\n");
 			break;
 		}
-		pid = fork();
-		if (pid < 0)
-		{
-			printf("Continue");
-			continue;
-		}
-		if (pid == 0)
-		{
-			arr[0] = get_path(arr[0]);
-			if (execve(arr[0], arr, NULL) == -1)
-			{
-				perror(NULL);
-				free(arr);
-				free(buffer);
-				return (-1);
-			}
-		}
-		else
-		{
-			wait(NULL);
-		}
-		free(arr);
+		buffer[get - 1] = '\0';
 	}
 	free(buffer);
 	return (0);
