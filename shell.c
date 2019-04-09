@@ -9,14 +9,14 @@
  */
 char *convert(unsigned int num, int base)
 {
-	static const char Representation[] = "0123456789ABCDEF";
+	static const char rep[] = "0123456789ABCDEF";
 	static char buffer[50];
 	char *ptr;
 
 	ptr = &buffer[49];
 	*ptr = '\0';
 	do {
-		*--ptr = Representation[num % base];
+		*--ptr = rep[num % base];
 		num /= base;
 	} while (num != 0);
 	return (ptr);
@@ -24,43 +24,64 @@ char *convert(unsigned int num, int base)
 
 /**
  * error - Displays an error
- * @i:
- * @cmd:
+ * @i: Command counter
+ * @cmd: Command from user
  */
 void error(int i, char *cmd)
 {
 	char *number = convert(i, 10);
-
 	if (errno == ENOTDIR || errno == ENOENT)
 	{
-		_puts("sh: ");
-		_puts(number);
-		_puts(": ");
-		_puts(cmd);
+		_puts("sh: "), _puts(number), _puts(": "), _puts(cmd);
 		write(STDERR_FILENO, ": not found\n", 12);
 	}
 	else
 	{
-		_puts("sh: ");
-		_puts(number);
-		_puts(": ");
-		_puts(cmd);
+		_puts("sh: "), _puts(number), _puts(": "), _puts(cmd), _puts(": ");
 		perror(NULL);
 	}
 }
 
 /**
- * _fork - Creates a buffer, forks, executes, free's if necessary
- * @buffer - String storing user input
+ * _shell - Creates a buffer, forks, executes, free's if necessary
  */
-void _fork(char *buffer)
+
+void _shell(void)
 {
+	char *buffer = NULL;
+	size_t len = 0;
+	int get;
+	static size_t count;
 	char **arr = NULL;
-	static int count;
+
+	while (18)
+	{
+		++count;
+		if (isatty(STDIN_FILENO))
+		{
+			write(STDERR_FILENO, "TYPEIT:$ ", 9);
+		}
+		get = getline(&buffer, &len, stdin);
+		if (get == EOF)
+		{
+			if (isatty(STDIN_FILENO))
+				printf("\n");
+			break;
+		}
+		buffer[get - 1] = '\0';
+		arr = tokarr(buffer);
+		_fork(buffer, arr, count);
+	}
+	free(buffer);
+}
+/**
+ * _fork - Creates a buffer, forks, executes, free's if necessary
+ * @buffer: String storing user input
+ */
+void _fork(char *buffer, char **arr, size_t count)
+{
 	pid_t pid;
 
-	++count;
-	arr = tokarr(buffer);
 	if (!arr[0])
 	{
 		free(arr);

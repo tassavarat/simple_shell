@@ -33,6 +33,8 @@ char *_append(char *s, char *token, char *buff);
 char *get_path(char *s);
 
 /* shell.c */
-void _fork(char *buffer);
+void _fork(char *buffer, char **arr, size_t count);
+void _shell(void);
+char *convert(unsigned int num, int base);
 
 #endif /*_SIMPLE_SHELL_H_*/
