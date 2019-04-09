@@ -30,6 +30,7 @@ char *convert(unsigned int num, int base)
 void error(int i, char *cmd)
 {
 	char *number = convert(i, 10);
+
 	if (errno == ENOTDIR || errno == ENOENT)
 	{
 		_puts("sh: "), _puts(number), _puts(": "), _puts(cmd);
@@ -53,7 +54,7 @@ void _shell(void)
 	int get;
 	static size_t count;
 	char **arr = NULL;
-
+	signal(SIGINT, signal_handler);
 	while (18)
 	{
 		++count;
@@ -77,6 +78,8 @@ void _shell(void)
 /**
  * _fork - Creates a buffer, forks, executes, free's if necessary
  * @buffer: String storing user input
+ * @arr: array of tokens
+ * @count: number of commands entered
  */
 void _fork(char *buffer, char **arr, size_t count)
 {
@@ -115,4 +118,13 @@ void _fork(char *buffer, char **arr, size_t count)
 		wait(NULL);
 	}
 	free(arr);
+}
+
+void signal_handler(int signum)
+{
+	(void) signum;
+	signal(SIGINT, signal_handler);
+	puts("\n");
+	_shell();
+	fflush(stdout);
 }
