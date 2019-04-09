@@ -24,20 +24,20 @@ int _putchar(int c)
 
 /**
  * _strtok - Splits a string
- * @str: String being evaluated
+ * @buffer: String being evaluated
  * @delim: Delimiter
  *
  * Return: An array of each word of the string
  * Null on error
  */
-char *_strtok(char *str, const char *delim)
+char *_strtok(char *buffer, const char *delim)
 {
 	static char *sp;
 	char *p;
 	int letter = 0;
 
-	if (str)
-		sp = str;
+	if (buffer)
+		sp = buffer;
 	p = sp;
 	while (sp && *sp)
 	{
@@ -90,17 +90,17 @@ char *d_space(char *str)
 
 /**
  * tokarr - Creates a double array from tokens
- * @str: String being evaluated
+ * @buffer: String being evaluated
  *
  * Return: Double array
  * Null on failure
  */
-char **tokarr(char *str)
+char **tokarr(char *buffer)
 {
 	char *token;
 	char **arr;
 	unsigned int i = 0, count = 1, isword = 0, t = 0;
-	char *pure = str;
+	char *pure = buffer;
 
 	while (pure && pure[i])
 	{
@@ -115,7 +115,7 @@ char **tokarr(char *str)
 	arr = malloc(sizeof(char *) * (count + 1));
 	if (!arr)
 		return (NULL);
-	token = _strtok(str, " ");
+	token = _strtok(buffer, " ");
 	while (token)
 	{
 		arr[t] = token;
