@@ -74,7 +74,6 @@ char *get_path(char *s)
  * evaluate_var - Looks for variables in the current environmental  * variables
  * @arr: An array of tokenized commands
  */
-
 void evaluate_var(char **arr)
 {
 	int i = 0, j = 0, flag = 0, len = 0;
