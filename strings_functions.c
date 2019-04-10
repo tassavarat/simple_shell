@@ -111,15 +111,13 @@ char **tokarr(char *buffer)
 {
 	char *token;
 	char **arr;
-	unsigned int i = 0, count = 1, isword = 0, t = 0;
 	char *pure = buffer;
+	unsigned int i = 0, count = 1, isword = 0, t = 0;
 
 	while (pure && pure[i])
 	{
 		if (pure[i] != ' ')
-		{
 			isword = 1;
-		}
 		if (isword && pure[i] == ' ')
 			count++;
 		i++;
