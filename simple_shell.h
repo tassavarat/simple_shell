@@ -31,6 +31,7 @@ void print_env(void);
 char *_getenv(const char *name);
 char *_append(char *s, char *token, char *buff);
 char *get_path(char *s);
+void evaluate_var(char **arr);
 
 /* shell.c */
 void _fork(char *buffer, char **arr, size_t count);
