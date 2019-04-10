@@ -10,10 +10,10 @@
 char *convert(unsigned int num, int base)
 {
 	static const char rep[] = "0123456789ABCDEF";
-	static char buffer[50];
+	static char buffer[11];
 	char *ptr;
 
-	ptr = &buffer[49];
+	ptr = &buffer[10];
 	*ptr = '\0';
 	do {
 		*--ptr = rep[num % base];
@@ -45,7 +45,6 @@ void error(int i, char *cmd)
 /**
  * _shell - Creates a buffer, forks, executes, free's if necessary
  */
-
 void _shell(void)
 {
 	char *buffer = NULL;
@@ -74,6 +73,7 @@ void _shell(void)
 	}
 	free(buffer);
 }
+
 /**
  * _fork - Creates a buffer, forks, executes, free's if necessary
  * @buffer: String storing user input
