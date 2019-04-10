@@ -66,11 +66,11 @@ void _shell(void)
 		if (get == EOF)
 		{
 			if (isatty(STDIN_FILENO))
-				printf("\n");
+				_puts("\n");
 			break;
 		}
 		buffer[get - 1] = '\0';
-		arr = tokarr(buffer);
+		arr = tokarr(_strtok(buffer, "#"));
 		_fork(buffer, arr, count);
 	}
 	free(buffer);
@@ -85,7 +85,7 @@ void _shell(void)
 void _fork(char *buffer, char **arr, size_t count)
 {
 	pid_t pid;
-	char *env[] = {"TERM=xterm-256color", NULL};
+	char *env[] = {"TERM=xterm", NULL};
 
 	if (!arr[0])
 	{
@@ -101,7 +101,7 @@ void _fork(char *buffer, char **arr, size_t count)
 	pid = fork();
 	if (pid < 0)
 	{
-		printf("Continue");
+		_puts("Continue");
 		return;
 	}
 	if (pid == 0)
@@ -133,7 +133,7 @@ void signal_handler(int signum)
 {
 	(void) signum;
 	signal(SIGINT, signal_handler);
-	puts("\n");
+	_puts("\n");
 	_shell();
 	fflush(stdout);
 }

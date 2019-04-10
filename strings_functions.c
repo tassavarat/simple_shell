@@ -73,31 +73,18 @@ char *_strtok(char *buffer, const char *delim)
 }
 
 /**
- * d_space - Removes leading and trailing spaces
+ * _strlen - Calculates length of a string
  * @str: String being evaluated
  *
- * Return: Pointer to the string
+ * Return: length of string
  */
-char *d_space(char *str)
+int _strlen(char *str)
 {
-	size_t i = 0;
-	int letter = 0;
+	int i = 0;
 
-	while (str && str[i])
-	{
-		if (str[i] == ' ' && letter == 0)
-		{
-			++str;
-			continue;
-		}
-		if (str[i] == ' ' && letter == 1)
-		{
-			str[i] = '\0';
-		}
-		letter = 1;
+	while (*(str + i))
 		++i;
-	}
-	return (str);
+	return (i);
 }
 
 /**
@@ -147,10 +134,8 @@ char **tokarr(char *buffer)
  */
 int _puts(char *str)
 {
-	size_t i = 0;
+	size_t i = _strlen(str);
 
-	while (str[i])
-		i++;
 	write(1, str, i);
 	return (i);
 }
