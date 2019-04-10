@@ -69,3 +69,40 @@ char *get_path(char *s)
 	}
 	return (s);
 }
+
+/**
+ * evaluate_var - Looks for variables in the current environmental  * variables
+ * @arr: An array of tokenized commands
+ */
+
+void evaluate_var(char **arr)
+{
+	int i = 0, j = 0, flag = 0, len = 0;
+
+	while (arr[i])
+	{
+
+		if (*(arr)[i] == '$')
+		{
+			flag = 1;
+			break;
+		}
+		i++;
+	}
+
+	if (flag)
+	{
+		(arr)[i]++;
+		len = strlen((arr)[i]);
+		while (environ[j])
+		{
+			if (!strncmp((arr)[i], environ[j], len))
+			{
+				(arr)[i]--;
+				(arr)[i] = environ[j] + len + 1;
+				break;
+			}
+			j++;
+		}
+	}
+}

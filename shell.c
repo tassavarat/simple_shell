@@ -83,6 +83,7 @@ void _shell(void)
 void _fork(char *buffer, char **arr, size_t count)
 {
 	pid_t pid;
+	char *env[] = {"TERM=xterm-256color", NULL};
 
 	if (!arr[0])
 	{
@@ -103,8 +104,9 @@ void _fork(char *buffer, char **arr, size_t count)
 	}
 	if (pid == 0)
 	{
+		evaluate_var(arr);
 		arr[0] = get_path(arr[0]);
-		if (execve(arr[0], arr, NULL) == -1)
+		if (execve(arr[0], arr, env) == -1)
 		{
 			error(count, arr[0]);
 			free(arr);
@@ -118,6 +120,12 @@ void _fork(char *buffer, char **arr, size_t count)
 	}
 	free(arr);
 }
+
+/**
+ * signal_handler - Handles Ctrl + C signal
+ * @signum: number of the signal
+ */
+
 
 void signal_handler(int signum)
 {
