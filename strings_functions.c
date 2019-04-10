@@ -112,14 +112,17 @@ char **tokarr(char *buffer)
 	char *token;
 	char **arr;
 	char *pure = buffer;
-	unsigned int i = 0, count = 1, isword = 0, t = 0;
+	unsigned int i = 0, count = 1, word = 0, t = 0;
 
 	while (pure && pure[i])
 	{
-		if (pure[i] != ' ')
-			isword = 1;
-		if (isword && pure[i] == ' ')
-			count++;
+		if (!word && pure[i] != ' ')
+		{
+			word = 1;
+			++count;
+		}
+		else if (word && pure[i] == ' ')
+			word = 0;
 		i++;
 	}
 	arr = malloc(sizeof(char *) * (count + 1));
