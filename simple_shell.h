@@ -19,7 +19,7 @@ extern char **environ;
 
 /* strings_functions.c file */
 char *_strtok(char *buffer, const char *delim);
-char *d_space(char *str);
+int _strlen(char *str);
 char **tokarr(char *buffer);
 int _putchar(int c);
 int _puts(char *str);
