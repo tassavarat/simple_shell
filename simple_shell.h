@@ -17,6 +17,17 @@
 /* environmental variables */
 extern char **environ;
 
+/**
+ * struct built-ins - Struct for built-ins
+ * @bi: Name of built-ins
+ * @f: Function pointer
+ */
+typedef struct built-ins
+{
+	char *bi;
+	void (*f)(argument_t args);
+} built-ins_t;
+
 /* strings_functions.c */
 char *_strtok(char *buffer, const char *delim);
 int _strlen(char *str);
@@ -44,5 +55,4 @@ void _fork(char *buffer, char **arr, size_t count);
 void _shell(void);
 char *convert(unsigned int num, int base);
 void signal_handler(int signum);
-
 #endif /*_SIMPLE_SHELL_H_*/
