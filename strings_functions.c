@@ -99,7 +99,7 @@ char **tokarr(char *buffer)
 	char *token;
 	char **arr;
 	char *pure = buffer;
-	unsigned int i = 0, count = 1, word = 0, t = 0;
+	unsigned int i = 0, count = 0, word = 0, t = 0;
 
 	while (pure && pure[i])
 	{

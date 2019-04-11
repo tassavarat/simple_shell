@@ -25,77 +25,74 @@ char *convert(unsigned int num, int base)
 /**
  * error - Displays an error
  * @i: Command counter
- * @cmd: Command from user
+ * @args.arr[0]: Command from user
  */
-void error(int i, char *cmd)
+void error(arguments_t args)
 {
-	char *number = convert(i, 10);
+	char *number = convert(args.count, 10);
 
 	if (errno == ENOTDIR || errno == ENOENT)
 	{
-		_puts("sh: "), _puts(number), _puts(": "), _puts(cmd);
+		_puts("sh: "), _puts(number), _puts(": "), _puts(args.arr[0]);
 		write(STDERR_FILENO, ": not found\n", 12);
 	}
 	else
 	{
-		_puts("sh: "), _puts(number), _puts(": "), _puts(cmd), _puts(": ");
+		_puts("sh: "), _puts(number), _puts(": "), _puts(args.arr[0]), _puts(": ");
 		perror(NULL);
 	}
 }
 
 /**
  * _shell - Creates a buffer, forks, executes, free's if necessary
+ * @args: args
  */
-void _shell(void)
+void _shell(arguments_t args)
 {
-	char *buffer = NULL;
-	char **arr = NULL;
 	int get;
-	static size_t count;
 	size_t len = 0;
 
 	signal(SIGINT, signal_handler);
 	while (18)
 	{
-		++count;
+		args.count++;
 		if (isatty(STDIN_FILENO))
 		{
 			write(STDERR_FILENO, "(╯°□°)╯︵ ┻━┻ ", 29);
 		}
-		get = getline(&buffer, &len, stdin);
+		get = getline(&(args.buf), &len, stdin);
 		if (get == EOF)
 		{
 			if (isatty(STDIN_FILENO))
 				_puts("\n");
 			break;
 		}
-		buffer[get - 1] = '\0';
-		arr = tokarr(_strtok(buffer, "#"));
-		_fork(buffer, arr, count);
+		args.buf[get - 1] = '\0';
+		args.arr = tokarr(_strtok(args.buf, "#"));
+		if (!builtins(args))
+			_fork(args);
 	}
-	free(buffer);
+	free(args.buf);
 }
 
 /**
  * _fork - Creates a buffer, forks, executes, free's if necessary
- * @buffer: String storing user input
- * @arr: array of tokens
- * @count: number of commands entered
+ * @args.arr: array of tokens
  */
-void _fork(char *buffer, char **arr, size_t count)
+void _fork(arguments_t args)
 {
 	pid_t pid;
 	char *env[] = {"TERM=xterm", NULL};
 
-	if (!arr[0])
+	if (!args.arr[0])
 	{
-		free(arr);
+		free(args.arr);
 		return;
 	}
-	if (!_strcmp(arr[0], "exit"))
+	if (!_strcmp(args.arr[0], "exit"))
 	{
-		free(arr);
-		free(buffer);
+		free(args.arr);
+		free(args.buf);
 		exit(98);
 	}
 	pid = fork();
@@ -106,13 +103,13 @@ void _fork(char *buffer, char **arr, size_t count)
 	}
 	if (pid == 0)
 	{
-		evaluate_var(arr);
-		arr[0] = get_path(arr[0]);
-		if (execve(arr[0], arr, env) == -1)
+		evaluate_var(args.arr);
+		args.arr[0] = get_path(args.arr[0]);
+		if (execve(args.arr[0], args.arr, env) == -1)
 		{
-			error(count, arr[0]);
-			free(arr);
-			free(buffer);
+			error(args);
+			free(args.arr);
+			free(args.buf);
 			exit(1);
 		}
 	}
@@ -120,7 +117,7 @@ void _fork(char *buffer, char **arr, size_t count)
 	{
 		wait(NULL);
 	}
-	free(arr);
+	free(args.arr);
 }
 
 /**

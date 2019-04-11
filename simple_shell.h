@@ -27,8 +27,14 @@ typedef struct arguments
 {
 	char *buf;
 	char **arr;
+	char **av;
+	int ac;
 	int count;
 } arguments_t;
+
+/* main.c */
+void initialize_struct(arguments_t arguments);
+
 
 /**
  * struct built-ins - Struct for built-ins
@@ -38,7 +44,7 @@ typedef struct arguments
 typedef struct built_ins
 {
 	char *bi;
-	void (*f)(arguments_t args);
+	int (*f)(void);
 } built_ins_t;
 
 /* strings_functions.c */
@@ -55,7 +61,11 @@ int _strcmp(const char *s1, const char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
 
 /* built-ins.c */
-void print_env(void);
+int print_env(void);
+int (*builtins(arguments_t args))(void);
+int custom_cd(void);
+int call_exit(void);
+int print_env(void);
 
 /* environment.c */
 char *_getenv(const char *name);
@@ -64,8 +74,10 @@ char *get_path(char *s);
 void evaluate_var(char **arr);
 
 /* shell.c */
-void _fork(char *buffer, char **arr, size_t count);
-void _shell(void);
+void _fork(arguments_t arguments);
+void _shell(arguments_t arguments);
 char *convert(unsigned int num, int base);
 void signal_handler(int signum);
+void error(arguments_t args);
+
 #endif /*_SIMPLE_SHELL_H_*/
