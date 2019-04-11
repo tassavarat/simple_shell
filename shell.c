@@ -92,7 +92,7 @@ void _fork(char *buffer, char **arr, size_t count)
 		free(arr);
 		return;
 	}
-	if (!strcmp(arr[0], "exit"))
+	if (!_strcmp(arr[0], "exit"))
 	{
 		free(arr);
 		free(buffer);
