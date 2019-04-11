@@ -7,7 +7,7 @@
  */
 int main(void)
 {
-	/*	signal(SIGINT, signal_handler);  still not working */
+       	signal(SIGINT, signal_handler);
 	_shell();
 	return (0);
 }

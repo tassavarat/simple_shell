@@ -132,6 +132,6 @@ void signal_handler(int signum)
 	(void) signum;
 	signal(SIGINT, signal_handler);
 	_puts("\n");
-	_shell();
+	write(STDERR_FILENO, "(╯°□°)╯︵ ┻━┻ ", 29);
 	fflush(stdout);
 }
