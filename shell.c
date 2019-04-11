@@ -49,10 +49,10 @@ void error(int i, char *cmd)
 void _shell(void)
 {
 	char *buffer = NULL;
-	size_t len = 0;
+	char **arr = NULL;
 	int get;
 	static size_t count;
-	char **arr = NULL;
+	size_t len = 0;
 
 	signal(SIGINT, signal_handler);
 	while (18)
@@ -60,17 +60,17 @@ void _shell(void)
 		++count;
 		if (isatty(STDIN_FILENO))
 		{
-			write(STDERR_FILENO, "TYPEIT:$ ", 9);
+			write(STDERR_FILENO, "(╯°□°)╯︵ ┻━┻ ", 29);
 		}
 		get = getline(&buffer, &len, stdin);
 		if (get == EOF)
 		{
 			if (isatty(STDIN_FILENO))
-				printf("\n");
+				_puts("\n");
 			break;
 		}
 		buffer[get - 1] = '\0';
-		arr = tokarr(buffer);
+		arr = tokarr(_strtok(buffer, "#"));
 		_fork(buffer, arr, count);
 	}
 	free(buffer);
@@ -85,14 +85,14 @@ void _shell(void)
 void _fork(char *buffer, char **arr, size_t count)
 {
 	pid_t pid;
-	char *env[] = {"TERM=xterm-256color", NULL};
+	char *env[] = {"TERM=xterm", NULL};
 
 	if (!arr[0])
 	{
 		free(arr);
 		return;
 	}
-	if (!strcmp(arr[0], "exit"))
+	if (!_strcmp(arr[0], "exit"))
 	{
 		free(arr);
 		free(buffer);
@@ -101,7 +101,7 @@ void _fork(char *buffer, char **arr, size_t count)
 	pid = fork();
 	if (pid < 0)
 	{
-		printf("Continue");
+		_puts("Continue");
 		return;
 	}
 	if (pid == 0)
@@ -127,13 +127,11 @@ void _fork(char *buffer, char **arr, size_t count)
  * signal_handler - Handles Ctrl + C signal
  * @signum: number of the signal
  */
-
-
 void signal_handler(int signum)
 {
 	(void) signum;
 	signal(SIGINT, signal_handler);
-	puts("\n");
+	_puts("\n");
 	_shell();
 	fflush(stdout);
 }
