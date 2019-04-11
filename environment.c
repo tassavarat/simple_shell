@@ -10,9 +10,9 @@
  */
 char *_append(char *s, char *token, char *buff)
 {
-	strcat(buff, token);
-	strcat(buff, "/");
-	strcat(buff, s);
+	_strcat(buff, token);
+	_strcat(buff, "/");
+	_strcat(buff, s);
 	return (buff);
 }
 
@@ -30,9 +30,9 @@ char *_getenv(const char *name)
 
 	while (name && environ[i])
 	{
-		token = strtok(environ[i], "=");
-		if (!strcmp(token, name))
-			return (strtok(NULL, "="));
+		token = _strtok(environ[i], "=");
+		if (!_strcmp(token, name))
+			return (_strtok(NULL, "="));
 		++i;
 	}
 	return (NULL);
@@ -58,14 +58,14 @@ char *get_path(char *s)
 		if (!stat(s, &st))
 			return (s);
 	}
-	token = strtok(str, ":");
+	token = _strtok(str, ":");
 	while (token && *s)
 	{
 		strr = _append(s, token, buff);
-		token = strtok(NULL, ":");
+		token = _strtok(NULL, ":");
 		if (!stat(buff, &st))
 			return (strr);
-		memset(buff, 0, 100);
+		_memset(buff, 0, 100);
 	}
 	return (s);
 }
@@ -92,7 +92,7 @@ void evaluate_var(char **arr)
 	if (flag)
 	{
 		(arr)[i]++;
-		len = strlen((arr)[i]);
+		len = _strlen((arr)[i]);
 		while (environ[j])
 		{
 			if (!strncmp((arr)[i], environ[j], len))

@@ -17,14 +17,20 @@
 /* environmental variables */
 extern char **environ;
 
-/* strings_functions.c file */
+/* strings_functions.c */
 char *_strtok(char *buffer, const char *delim);
 int _strlen(char *str);
 char **tokarr(char *buffer);
 int _putchar(int c);
 int _puts(char *str);
 
-/* built-ins.c file */
+/* string_functions2.c */
+char *_memset(char *s, char b, unsigned int n);
+char *_strcat(char *dest, char *src);
+int _strcmp(const char *s1, const char *s2);
+int _strncmp(const char *s1, const char *s2, size_t n);
+
+/* built-ins.c */
 void print_env(void);
 
 /* environment.c */
