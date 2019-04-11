@@ -18,15 +18,28 @@
 extern char **environ;
 
 /**
+ * struct arguments - Values to be accessed by various functions
+ * @buf: String
+ * @arr: Array of strings
+ * @count: Command count
+ */
+typedef struct arguments
+{
+	char *buf;
+	char **arr;
+	int count;
+} arguments_t;
+
+/**
  * struct built-ins - Struct for built-ins
  * @bi: Name of built-ins
  * @f: Function pointer
  */
-typedef struct built-ins
+typedef struct built_ins
 {
 	char *bi;
-	void (*f)(argument_t args);
-} built-ins_t;
+	void (*f)(arguments_t args);
+} built_ins_t;
 
 /* strings_functions.c */
 char *_strtok(char *buffer, const char *delim);
