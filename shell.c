@@ -59,7 +59,9 @@ void _shell(void)
 	{
 		++count;
 		if (isatty(STDIN_FILENO))
-			write(STDERR_FILENO, "TYPEIT:$ ", 9);
+		{
+			write(STDERR_FILENO, "(╯°□°)╯︵ ┻━┻ ", 29);
+		}
 		get = getline(&buffer, &len, stdin);
 		if (get == EOF)
 		{
