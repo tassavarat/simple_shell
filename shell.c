@@ -127,8 +127,6 @@ void _fork(char *buffer, char **arr, size_t count)
  * signal_handler - Handles Ctrl + C signal
  * @signum: number of the signal
  */
-
-
 void signal_handler(int signum)
 {
 	(void) signum;
