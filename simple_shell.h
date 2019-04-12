@@ -44,7 +44,7 @@ void initialize_struct(arguments_t arguments);
 typedef struct built_ins
 {
 	char *bi;
-	int (*f)(void);
+	int (*f)(arguments_t args);
 } built_ins_t;
 
 /* strings_functions.c */
@@ -61,11 +61,11 @@ int _strcmp(const char *s1, const char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
 
 /* built-ins.c */
-int print_env(void);
-int (*builtins(arguments_t args))(void);
-int custom_cd(void);
-int call_exit(void);
-int print_env(void);
+int print_env(arguments_t args);
+int builtins(arguments_t args);
+int custom_cd(arguments_t args);
+int call_exit(arguments_t args);
+int print_env(arguments_t args);
 
 /* environment.c */
 char *_getenv(const char *name);

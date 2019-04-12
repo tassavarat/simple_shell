@@ -14,7 +14,7 @@ int main(int ac, char *av[])
 	arguments.av = av;
 	arguments.ac = ac;
 
-	//initialize_struct(arguments);
+	/*initialize_struct(arguments);*/
 	signal(SIGINT, signal_handler);
 	_shell(arguments);
 	return (0);

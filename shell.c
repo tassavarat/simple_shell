@@ -57,9 +57,7 @@ void _shell(arguments_t args)
 	{
 		args.count++;
 		if (isatty(STDIN_FILENO))
-		{
 			write(STDERR_FILENO, "(╯°□°)╯︵ ┻━┻ ", 29);
-		}
 		get = getline(&(args.buf), &len, stdin);
 		if (get == EOF)
 		{
@@ -68,6 +66,7 @@ void _shell(arguments_t args)
 			break;
 		}
 		args.buf[get - 1] = '\0';
+		printf("get is %d\n", get);
 		args.arr = tokarr(_strtok(args.buf, "#"));
 		if (!builtins(args))
 			_fork(args);
@@ -89,12 +88,14 @@ void _fork(arguments_t args)
 		free(args.arr);
 		return;
 	}
+	/*
 	if (!_strcmp(args.arr[0], "exit"))
 	{
 		free(args.arr);
 		free(args.buf);
 		exit(98);
 	}
+	*/
 	pid = fork();
 	if (pid < 0)
 	{
