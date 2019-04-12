@@ -24,7 +24,6 @@ char *convert(unsigned int num, int base)
 
 /**
  * error - Displays an error
- * @i: Command counter
  * @args.arr[0]: Command from user
  */
 void error(arguments_t *args)

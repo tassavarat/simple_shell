@@ -8,9 +8,9 @@
 int main(int ac, char *av[])
 {
 	arguments_t arguments;
+
 	arguments.av = av;
 	arguments.ac = ac;
-
 	initialize_struct(&arguments);
 	signal(SIGINT, signal_handler);
 	_shell(&arguments);
