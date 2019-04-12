@@ -13,7 +13,7 @@ int main(int ac, char *av[])
 
 	initialize_struct(&arguments);
 	signal(SIGINT, signal_handler);
-	_shell(arguments);
+	_shell(&arguments);
 	return (0);
 }
 

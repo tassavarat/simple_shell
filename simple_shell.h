@@ -61,7 +61,7 @@ int _strncmp(const char *s1, const char *s2, size_t n);
 
 /* built-ins.c */
 int print_env(arguments_t args);
-int builtins(arguments_t args);
+int builtins(arguments_t *args);
 int custom_cd(arguments_t args);
 int call_exit(arguments_t args);
 int print_env(arguments_t args);
@@ -73,10 +73,10 @@ char *get_path(char *s);
 void evaluate_var(char **arr);
 
 /* shell.c */
-void _fork(arguments_t arguments);
-void _shell(arguments_t arguments);
+void _fork(arguments_t *arguments);
+void _shell(arguments_t *arguments);
 char *convert(unsigned int num, int base);
 void signal_handler(int signum);
-void error(arguments_t args);
+void error(arguments_t *args);
 
 #endif /*_SIMPLE_SHELL_H_*/

@@ -32,7 +32,7 @@ int custom_cd(arguments_t args __attribute__((unused)))
 }
 
 
-int builtins(arguments_t args)
+int builtins(arguments_t *args)
 {
 	built_ins_t func_array[] = {
 		{"env", print_env},
@@ -44,9 +44,9 @@ int builtins(arguments_t args)
 
 	while (func_array[i].bi)
 	{
-		if (!_strcmp(args.arr[0], func_array[i].bi))
+		if (!_strcmp(args->arr[0], func_array[i].bi))
 		{
-			func_array[i].f(args);
+			func_array[i].f(*args);
 			return (1);
 		}
 		i++;

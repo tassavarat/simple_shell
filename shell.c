@@ -27,18 +27,18 @@ char *convert(unsigned int num, int base)
  * @i: Command counter
  * @args.arr[0]: Command from user
  */
-void error(arguments_t args)
+void error(arguments_t *args)
 {
-	char *number = convert(args.count, 10);
+	char *number = convert(args->count, 10);
 
 	if (errno == ENOTDIR || errno == ENOENT)
 	{
-		_puts("sh: "), _puts(number), _puts(": "), _puts(args.arr[0]);
+		_puts("sh: "), _puts(number), _puts(": "), _puts(args->arr[0]);
 		write(STDERR_FILENO, ": not found\n", 12);
 	}
 	else
 	{
-		_puts("sh: "), _puts(number), _puts(": "), _puts(args.arr[0]), _puts(": ");
+		_puts("sh: "), _puts(number), _puts(": "), _puts(args->arr[0]), _puts(": ");
 		perror(NULL);
 	}
 }
@@ -47,7 +47,7 @@ void error(arguments_t args)
  * _shell - Creates a buffer, forks, executes, free's if necessary
  * @args: args
  */
-void _shell(arguments_t args)
+void _shell(arguments_t *args)
 {
 	int get;
 	size_t len = 0;
@@ -55,34 +55,34 @@ void _shell(arguments_t args)
 	signal(SIGINT, signal_handler);
 	while (18)
 	{
-		args.count++;
+		args->count++;
 		if (isatty(STDIN_FILENO))
 			write(STDERR_FILENO, "(╯°□°)╯︵ ┻━┻ ", 29);
-		get = getline(&(args.buf), &len, stdin);
+		get = getline(&(args->buf), &len, stdin);
 		if (get == EOF)
 		{
 			if (isatty(STDIN_FILENO))
 				_puts("\n");
 			break;
 		}
-		args.buf[get - 1] = '\0';
-		args.arr = tokarr(_strtok(args.buf, "#"));
-		if (!args.arr[0])
+		args->buf[get - 1] = '\0';
+		args->arr = tokarr(_strtok(args->buf, "#"));
+		if (!args->arr[0])
 		{
-			free(args.arr);
+			free(args->arr);
 			continue;
 		}
 		if (!builtins(args))
 			_fork(args);
 	}
-	free(args.buf);
+	free(args->buf);
 }
 
 /**
  * _fork - Creates a buffer, forks, executes, free's if necessary
  * @args.arr: array of tokens
  */
-void _fork(arguments_t args)
+void _fork(arguments_t *args)
 {
 	pid_t pid;
 	char *env[] = {"TERM=xterm", NULL};
@@ -103,13 +103,13 @@ void _fork(arguments_t args)
 	}
 	if (pid == 0)
 	{
-		evaluate_var(args.arr);
-		args.arr[0] = get_path(args.arr[0]);
-		if (execve(args.arr[0], args.arr, env) == -1)
+		evaluate_var(args->arr);
+		args->arr[0] = get_path(args->arr[0]);
+		if (execve(args->arr[0], args->arr, env) == -1)
 		{
 			error(args);
-			free(args.arr);
-			free(args.buf);
+			free(args->arr);
+			free(args->buf);
 			exit(1);
 		}
 	}
@@ -117,7 +117,7 @@ void _fork(arguments_t args)
 	{
 		wait(NULL);
 	}
-	free(args.arr);
+	free(args->arr);
 }
 
 /**
