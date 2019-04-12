@@ -84,18 +84,9 @@ void _shell(arguments_t *args)
  */
 void _fork(arguments_t *args)
 {
-	pid_t pid;
 	char *env[] = {"TERM=xterm", NULL};
+	pid_t pid = fork();
 
-	/*
-	   if (!_strcmp(args.arr[0], "exit"))
-	   {
-	   free(args.arr);
-	   free(args.buf);
-	   exit(98);
-	   }
-	 */
-	pid = fork();
 	if (pid < 0)
 	{
 		_puts("Continue");
@@ -124,9 +115,8 @@ void _fork(arguments_t *args)
  * signal_handler - Handles Ctrl + C signal
  * @signum: number of the signal
  */
-void signal_handler(int signum)
+void signal_handler(int signum __attribute__((unused)))
 {
-	(void) signum;
 	signal(SIGINT, signal_handler);
 	_puts("\n");
 	write(STDERR_FILENO, "(╯°□°)╯︵ ┻━┻ ", 29);
