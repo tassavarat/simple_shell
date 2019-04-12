@@ -30,6 +30,7 @@ typedef struct arguments
 	char **av;
 	int ac;
 	int count;
+	pid_t status;
 } arguments_t;
 
 /* main.c */
@@ -70,7 +71,7 @@ int print_env(arguments_t args);
 char *_getenv(const char *name);
 char *_append(char *s, char *token, char *buff);
 char *get_path(char *s);
-void evaluate_var(char **arr);
+void evaluate_var(arguments_t *arguments);
 
 /* shell.c */
 void _fork(arguments_t *arguments);

@@ -72,16 +72,17 @@ char *get_path(char *s)
 
 /**
  * evaluate_var - Looks for variables in the current environmental  * variables
- * @arr: An array of tokenized commands
+ * @arguments: An array of tokenized commands
  */
-void evaluate_var(char **arr)
+void evaluate_var(arguments_t *arguments)
 {
 	int i = 0, j = 0, flag = 0, len = 0;
+	static char *number;
 
-	while (arr[i])
+	while ((arguments->arr)[i])
 	{
 
-		if (*(arr)[i] == '$')
+		if (*((arguments->arr))[i] == '$')
 		{
 			flag = 1;
 			break;
@@ -91,17 +92,20 @@ void evaluate_var(char **arr)
 
 	if (flag)
 	{
-		(arr)[i]++;
-		len = _strlen((arr)[i]);
+		((arguments->arr))[i]++;
+		len = _strlen(((arguments->arr))[i]);
 		while (environ[j])
 		{
-			if (!strncmp((arr)[i], environ[j], len))
+			if (!strncmp(((arguments->arr))[i], environ[j], len))
 			{
-				(arr)[i]--;
-				(arr)[i] = environ[j] + len + 1;
+				((arguments->arr))[i] = environ[j] + len + 1;
 				break;
 			}
 			j++;
 		}
+	}
+	else if (flag && !_strcmp(arguments->arr[i], "?") && WIFEXITED(arguments->status))
+	{
+		arguments->arr[i] = number = convert(WEXITSTATUS(arguments->status), 10);
 	}
 }

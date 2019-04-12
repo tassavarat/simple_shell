@@ -52,7 +52,6 @@ void _shell(arguments_t *args)
 	int get;
 	size_t len = 0;
 
-	signal(SIGINT, signal_handler);
 	while (18)
 	{
 		args->count++;
@@ -94,19 +93,19 @@ void _fork(arguments_t *args)
 	}
 	if (pid == 0)
 	{
-		evaluate_var(args->arr);
+		evaluate_var(args);
 		args->arr[0] = get_path(args->arr[0]);
 		if (execve(args->arr[0], args->arr, env) == -1)
 		{
 			error(args);
 			free(args->arr);
 			free(args->buf);
-			exit(1);
+			_exit(1);
 		}
 	}
 	else
 	{
-		wait(NULL);
+		waitpid(-1, &(args->status), 0);
 	}
 	free(args->arr);
 }
