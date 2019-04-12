@@ -11,7 +11,7 @@ int main(int ac, char *av[])
 	arguments.av = av;
 	arguments.ac = ac;
 
-	initialize_struct(arguments);
+	initialize_struct(&arguments);
 	signal(SIGINT, signal_handler);
 	_shell(arguments);
 	return (0);
@@ -21,9 +21,9 @@ int main(int ac, char *av[])
  * initialize_struct - Simple shell
  * @arguments: args
  */
-void initialize_struct(arguments_t arguments __attribute__((unused)))
+void initialize_struct(arguments_t *arguments __attribute__((unused)))
 {
-	arguments.buf = NULL;
-	arguments.arr = NULL;
-	arguments.count = 0;
+	arguments->buf = NULL;
+	arguments->arr = NULL;
+	arguments->count = 0;
 }

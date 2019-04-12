@@ -33,8 +33,7 @@ typedef struct arguments
 } arguments_t;
 
 /* main.c */
-void initialize_struct(arguments_t arguments);
-
+void initialize_struct(arguments_t *arguments);
 
 /**
  * struct built-ins - Struct for built-ins
