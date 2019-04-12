@@ -13,7 +13,7 @@ int print_env(arguments_t args)
 		_puts("\n");
 	}
 	free(args.arr);
-	return(1);
+	return (1);
 }
 
 int call_exit(arguments_t args)
@@ -28,7 +28,7 @@ int custom_cd(arguments_t args __attribute__((unused)))
 {
 	free(args.arr);
 	free(args.buf);
-	return(1);
+	return (1);
 }
 
 
