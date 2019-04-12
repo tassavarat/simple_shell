@@ -3,7 +3,7 @@
 /**
  * print_env - Prints environmental variables
  */
-int print_env(arguments_t args __attribute__((unused)))
+int print_env(arguments_t args)
 {
 	size_t i = 0;
 
@@ -26,7 +26,8 @@ int call_exit(arguments_t args)
 
 int custom_cd(arguments_t args __attribute__((unused)))
 {
-	write(1,"CD\n", 3);
+	free(args.arr);
+	free(args.buf);
 	return(1);
 }
 
