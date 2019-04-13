@@ -21,8 +21,9 @@ int call_exit(arguments_t *args)
 {
 	free(args->arr);
 	free(args->buf);
-	exit(1);
-	return (1);
+	free(args->_environ);
+	free_list(args->head);
+	exit(0);
 }
 
 int custom_cd(arguments_t *args __attribute__((unused)))

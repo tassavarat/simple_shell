@@ -74,6 +74,8 @@ void _shell(arguments_t *args)
 			_fork(args);
 	}
 	free(args->buf);
+	free(args->_environ);
+	free_list(args->head);
 }
 
 /**
@@ -98,6 +100,8 @@ void _fork(arguments_t *args)
 			error(args);
 			free(args->arr);
 			free(args->buf);
+			free(args->_environ);
+			free_list(args->head);
 			_exit(1);
 		}
 	}

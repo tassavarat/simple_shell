@@ -42,9 +42,7 @@ typedef struct arguments
 {
 	char *buf;
 	char **arr;
-	char **av;
 	char **_environ;
-	int ac;
 	int count;
 	pid_t status;
 	list_t *head;
