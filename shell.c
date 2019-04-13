@@ -82,7 +82,6 @@ void _shell(arguments_t *args)
  */
 void _fork(arguments_t *args)
 {
-	char *env[] = {"TERM=xterm", NULL};
 	pid_t pid = fork();
 
 	if (pid < 0)
@@ -94,7 +93,7 @@ void _fork(arguments_t *args)
 	{
 		evaluate_var(args);
 		args->arr[0] = get_path(args->arr[0]);
-		if (execve(args->arr[0], args->arr, env) == -1)
+		if (execve(args->arr[0], args->arr, args->_environ) == -1)
 		{
 			error(args);
 			free(args->arr);

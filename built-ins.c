@@ -3,31 +3,32 @@
 /**
  * print_env - Prints environmental variables
  */
-int print_env(arguments_t args)
+int print_env(arguments_t *args)
 {
 	size_t i = 0;
 
-	while (environ[i])
+	while (args->_environ[i])
 	{
-		_puts(environ[i++]);
+		write(STDOUT_FILENO, args->_environ[i], _strlen(args->_environ[i]));
 		_puts("\n");
+		++i;
 	}
-	free(args.arr);
+	free(args->arr);
 	return (1);
 }
 
-int call_exit(arguments_t args)
+int call_exit(arguments_t *args)
 {
-	free(args.arr);
-	free(args.buf);
+	free(args->arr);
+	free(args->buf);
 	exit(1);
 	return (1);
 }
 
-int custom_cd(arguments_t args __attribute__((unused)))
+int custom_cd(arguments_t *args __attribute__((unused)))
 {
-	free(args.arr);
-	free(args.buf);
+	free(args->arr);
+	free(args->buf);
 	return (1);
 }
 
@@ -38,6 +39,7 @@ int builtins(arguments_t *args)
 		{"env", print_env},
 		{"exit", call_exit},
 		{"cd", custom_cd},
+		{"unsetenv", _unsetenv},
 		{NULL, NULL}
 	};
 	int  i = 0;
@@ -46,7 +48,7 @@ int builtins(arguments_t *args)
 	{
 		if (!_strcmp(args->arr[0], func_array[i].bi))
 		{
-			func_array[i].f(*args);
+			func_array[i].f(args);
 			return (1);
 		}
 		i++;

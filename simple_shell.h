@@ -18,6 +18,21 @@
 extern char **environ;
 
 /**
+ * struct list_s - singly linked list
+ * @str: string - (malloc'ed string)
+ * @len: length of the string
+ * @next: points to the next node
+ *
+ * Description: singly linked list node structure
+ * for Holberton project
+ */
+
+typedef struct list_s
+{
+	char *str;
+	struct list_s *next;
+} list_t;
+/**
  * struct arguments - Values to be accessed by various functions
  * @buf: String
  * @arr: Array of strings
@@ -28,13 +43,12 @@ typedef struct arguments
 	char *buf;
 	char **arr;
 	char **av;
+	char **_environ;
 	int ac;
 	int count;
 	pid_t status;
+	list_t *head;
 } arguments_t;
-
-/* main.c */
-void initialize_struct(arguments_t *arguments);
 
 /**
  * struct built-ins - Struct for built-ins
@@ -44,8 +58,11 @@ void initialize_struct(arguments_t *arguments);
 typedef struct built_ins
 {
 	char *bi;
-	int (*f)(arguments_t args);
+	int (*f)(arguments_t *args);
 } built_ins_t;
+
+/* main.c */
+void initialize_struct(arguments_t *arguments);
 
 /* strings_functions.c */
 char *_strtok(char *buffer, const char *delim);
@@ -61,11 +78,22 @@ int _strcmp(const char *s1, const char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
 
 /* built-ins.c */
-int print_env(arguments_t args);
+int print_env(arguments_t *args);
 int builtins(arguments_t *args);
-int custom_cd(arguments_t args);
-int call_exit(arguments_t args);
-int print_env(arguments_t args);
+int custom_cd(arguments_t *args);
+int call_exit(arguments_t *args);
+int print_env(arguments_t *args);
+
+/* built-ins2.c */
+list_t *arrtol(void);
+char **ltoa(list_t *head);
+int _unsetenv(arguments_t *args);
+
+/* linked-list.c */
+size_t list_len(const list_t *h);
+int delete_node_at_index(list_t **head, size_t index);
+void free_list(list_t *head);
+list_t *add_node_end(list_t **head, const char *str);
 
 /* environment.c */
 char *_getenv(const char *name);
