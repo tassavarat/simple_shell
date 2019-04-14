@@ -63,7 +63,7 @@ int delete_node_at_index(list_t **head, size_t index)
 void free_list(list_t *head)
 {
 	list_t *current_addr = head;
-	list_t *next_addr;
+	list_t *next_addr = NULL;
 
 	if (head == NULL)
 		return;
@@ -111,7 +111,7 @@ size_t print_list(const list_t *h)
  */
 list_t *add_node_end(list_t **head, const char *str)
 {
-	list_t *new;
+	list_t *new = NULL;
 	list_t *old = *head;
 
 	new = malloc(sizeof(list_t));
@@ -154,6 +154,9 @@ char **ltoa(list_t *head)
 	if (!head)
 		return (NULL);
 	arr = malloc(sizeof(char *) *(len + 1));
+	if (!arr)
+		return (NULL);
+
 	while (head)
 	{
 		arr[i] = head->str;
@@ -170,43 +173,41 @@ char **ltoa(list_t *head)
 int _unsetenv(arguments_t *args)
 {
 	list_t *tmp = args->head;
-	size_t i = 0;
+	size_t i = 0, flag = 0;
 
 	while (tmp)
 	{
 		if (!(_strncmp(tmp->str, args->arr[1], _strlen(args->arr[1]))))
 		{
 			delete_node_at_index(&(args->head), i);
+			flag = 1;
 			break;
 		}
 		tmp = tmp->next;
 		++i;
 	}
-	args->_environ = ltoa(args->head);
+	if (flag)
+		args->_environ = ltoa(args->head);
 	return (1);
 }
 
-/*
-void _unsetenv(void)
+int _setenv(arguments_t *args)
 {
-	list_t *head = NULL;
-	char *name = "PATH";
-	char **arr;
-	unsigned int i = 0;
+	char *variable = args->arr[1];
+	char *value = args->arr[2];
+	char temp[256] = {0};
+	//temp = malloc(_strlen(variable) + _strlen(value) + 2);
 
-	head = arrtol();
-	print_list(head);
-	printf("############################################################\n");
-	_unsetenv(name, &head);
-	print_list(head);
-	arr = ltoa(head);
-	while (arr[i])
-	{
-		printf("\n", arr[i]);
-		++i;
-	}
-	free_list(head);
-	free(arr);  ltoa
-	return (0);
+	//if (!temp)
+	//	return (0);
+	_unsetenv(args);
+	_strcat(temp, variable);
+	_strcat(temp, "=");
+	_strcat(temp, value);
+	_strcat(temp, "\0");
+
+	add_node_end(&(args->head), temp);
+	args->_environ = ltoa(args->head);
+	//free(temp);
+	return (1);
 }
-*/

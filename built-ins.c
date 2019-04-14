@@ -1,5 +1,22 @@
 #include "simple_shell.h"
 
+char *_getenv2(char *name, arguments_t *env)
+{
+	int i = 0, len = _strlen(name);
+
+	while((env->_environ)[i])
+	{
+		if (!_strncmp(name, (env->_environ)[i], len))
+		{
+			name = (env->_environ)[i] + len + 1;
+			return (name);
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+
 /**
  * print_env - Prints environmental variables
  */
@@ -28,11 +45,24 @@ int call_exit(arguments_t *args)
 
 int custom_cd(arguments_t *args __attribute__((unused)))
 {
+	char *home = _getenv2("HOME", args);
+	char *cwd = getcwd(cwd = NULL, 0);
+	char *oldwd = _getenv2("OLDPWD", args);
+
+	if (!args->arr[1] || *args->arr[1] == '=' || !_strcmp(args->arr[1], "$HOME"))
+	{
+		chdir(home);
+	}
+
+	if (*args->arr[1] == '-')
+	{
+		chdir(oldwd);
+	}
+	chdir(args->arr[1]);
+	free(cwd);
 	free(args->arr);
-	free(args->buf);
 	return (1);
 }
-
 
 int builtins(arguments_t *args)
 {
@@ -41,6 +71,7 @@ int builtins(arguments_t *args)
 		{"exit", call_exit},
 		{"cd", custom_cd},
 		{"unsetenv", _unsetenv},
+		{"setenv", _setenv},
 		{NULL, NULL}
 	};
 	int  i = 0;

@@ -86,6 +86,7 @@ int print_env(arguments_t *args);
 list_t *arrtol(void);
 char **ltoa(list_t *head);
 int _unsetenv(arguments_t *args);
+int _setenv(arguments_t *args);
 
 /* linked-list.c */
 size_t list_len(const list_t *h);
