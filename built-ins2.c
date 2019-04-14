@@ -1,6 +1,30 @@
 #include "simple_shell.h"
 
 /**
+ * _getenv2 - Prints environmental variables
+ * @name: name of the environmental variable
+ * @args: Arguments struct
+ * Return: value of variable
+ * NULL on failure
+ */
+char *_getenv2(char *name, arguments_t *args)
+{
+	size_t len = _strlen(name);
+	list_t *head = args->head;
+
+	while (head)
+	{
+		if (!_strncmp(name, head->str, len))
+		{
+			name = head->str + len + 1;
+			return (name);
+		}
+		head = head->next;
+	}
+	return (NULL);
+}
+
+/**
  * listint_len - counts the number elements of a linked list
  * @h: a pointer to the head of a linked list
  * Return: The number of nodes
@@ -80,28 +104,6 @@ void free_list(list_t *head)
 }
 
 /**
- * print_list - Prints all elements of a list
- * @h: Pointer to a list
- *
- * Return: Number of nodes
- */
-size_t print_list(const list_t *h)
-{
-	unsigned int i = 0;
-
-	while (h)
-	{
-		if (!h->str)
-			printf("(nil)\n");
-		else
-			printf("%s\n", h->str);
-		h = h->next;
-		++i;
-	}
-	return (i);
-}
-
-/**
  * add_node_end - Adds a node at the end of a list
  * @head: Pointer to address of a list
  * @str: Pointer to string
@@ -135,7 +137,7 @@ list_t *arrtol(void)
 	int i = 0;
 	list_t *head = NULL;
 
-	while(environ[i])
+	while (environ[i])
 	{
 		add_node_end(&head, environ[i]);
 		++i;
@@ -153,7 +155,7 @@ char **ltoa(list_t *head)
 
 	if (!head)
 		return (NULL);
-	arr = malloc(sizeof(char *) *(len + 1));
+	arr = malloc(sizeof(char *) * (len + 1));
 	if (!arr)
 		return (NULL);
 
@@ -188,7 +190,7 @@ int _unsetenv(arguments_t *args)
 		++i;
 	}
 	/* if (flag) */
-	/* 	args->_environ = ltoa(args->head); */
+	/*args->_environ = ltoa(args->head); */
 	return (1);
 }
 
@@ -197,10 +199,7 @@ int _setenv(arguments_t *args)
 	char *variable = args->arr[1];
 	char *value = args->arr[2];
 	char temp[256] = {0};
-	//temp = malloc(_strlen(variable) + _strlen(value) + 2);
 
-	//if (!temp)
-	//	return (0);
 	_unsetenv(args);
 	_strcat(temp, variable);
 	_strcat(temp, "=");
@@ -208,7 +207,5 @@ int _setenv(arguments_t *args)
 	_strcat(temp, "\0");
 
 	add_node_end(&(args->head), temp);
-	//args->_environ = ltoa(args->head);
-	//free(temp);
 	return (1);
 }

@@ -61,7 +61,9 @@ void _shell(arguments_t *args)
 		{
 			if (isatty(STDIN_FILENO))
 				_puts("\n");
-			break;
+			free(args->buf);
+			free_list(args->head);
+			return;
 		}
 		args->buf[get - 1] = '\0';
 		args->arr = tokarr(_strtok(args->buf, "#"));
@@ -70,11 +72,12 @@ void _shell(arguments_t *args)
 			free(args->arr);
 			continue;
 		}
+		evaluate_var(args);
 		if (!builtins(args))
 			_fork(args);
+		free(args->arr);
 	}
 	free(args->buf);
-	//	free(args->_environ);
 	free_list(args->head);
 	free(args->arr);
 }
@@ -95,14 +98,12 @@ void _fork(arguments_t *args)
 	}
 	if (pid == 0)
 	{
-		evaluate_var(args);
-		args->arr[0] = get_path(args->arr[0]);
+		args->arr[0] = get_path(args);
 		if (execve(args->arr[0], args->arr, env = ltoa(args->head)) == -1)
 		{
 			error(args);
 			free(args->arr);
 			free(args->buf);
-			//	free(args->_environ);
 			free_list(args->head);
 			free(env);
 			_exit(1);
@@ -112,7 +113,6 @@ void _fork(arguments_t *args)
 	{
 		waitpid(-1, &(args->status), 0);
 	}
-	free(args->arr);
 }
 
 /**

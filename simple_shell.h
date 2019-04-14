@@ -86,6 +86,7 @@ list_t *arrtol(void);
 char **ltoa(list_t *head);
 int _unsetenv(arguments_t *args);
 int _setenv(arguments_t *args);
+char *_getenv2(char *name, arguments_t *args);
 
 /* linked-list.c */
 size_t list_len(const list_t *h);
@@ -96,7 +97,7 @@ list_t *add_node_end(list_t **head, const char *str);
 /* environment.c */
 char *_getenv(const char *name);
 char *_append(char *s, char *token, char *buff);
-char *get_path(char *s);
+char *get_path(arguments_t *args);
 void evaluate_var(arguments_t *arguments);
 
 /* shell.c */

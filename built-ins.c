@@ -1,37 +1,20 @@
 #include "simple_shell.h"
 
-char *_getenv2(char *name, arguments_t *env)
-{
-	int i = 0, len = _strlen(name);
-	(void) env;
-
-	while((environ)[i])
-	{
-		if (!_strncmp(name, (environ)[i], len))
-		{
-			name = (environ)[i] + len + 1;
-			return (name);
-		}
-		i++;
-	}
-	return (NULL);
-}
-
-
 /**
  * print_env - Prints environmental variables
+ * @args: Arguments struct
+ * Return: 1 on success
  */
 int print_env(arguments_t *args)
 {
-	size_t i = 0;
+	list_t *head = args->head;
 
-	while (environ[i])
+	while (head)
 	{
-		write(STDOUT_FILENO, environ[i], _strlen(environ[i]));
+		_puts(head->str);
 		_puts("\n");
-		++i;
+		head = head->next;
 	}
-	free(args->arr);
 	return (1);
 }
 
@@ -39,7 +22,6 @@ int call_exit(arguments_t *args)
 {
 	free(args->arr);
 	free(args->buf);
-	//free(args->_environ);
 	free_list(args->head);
 	exit(0);
 }
@@ -68,7 +50,7 @@ int custom_cd(arguments_t *args __attribute__((unused)))
 int builtins(arguments_t *args)
 {
 	built_ins_t func_array[] = {
-		{"env", print_env},
+		{"head", print_env},
 		{"exit", call_exit},
 		{"cd", custom_cd},
 		{"unsetenv", _unsetenv},

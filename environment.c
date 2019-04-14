@@ -2,7 +2,7 @@
 
 /**
  * _append - Appends strings together
- * @s: User command to append
+ * @args->arr[0]: User command to append
  * @token: PATH string to be appended
  * @buff: String to be returned
  *
@@ -23,7 +23,7 @@ char *_append(char *s, char *token, char *buff)
  * Return: Path of corresponding name value
  * NULL on error
  */
-char *_getenv(const char *name)
+char *_getenv(const char *name) /* Deprecated function */
 {
 	char *token;
 	size_t i = 0;
@@ -40,36 +40,37 @@ char *_getenv(const char *name)
 
 /**
  * get_path - Looks for files in the current path
- * @s: String being evaluated
+ * @args->arr[0]: String being evaluated
  *
  * Return: Command location
  * String on fail
  */
-char *get_path(char *s)
+char *get_path(arguments_t *args)
 {
-	char *str = _getenv("PATH"), *token, *strr;
-	static char buff[100];
+	char *str = _getenv2("PATH", args), *token, *strr;
+	static char buff[256];
 	struct stat st;
 
 	if (!str)
-		return (s);
-	if (str[0] == ':' && !stat(s, &st))
-		return (s);
+		return (args->arr[0]);
+	if (str[0] == ':' && !stat(args->arr[0], &st))
+		return (args->arr[0]);
 	token = _strtok(str, ":");
-	while (token && *s)
+	while (token && args->arr[0])
 	{
-		strr = _append(s, token, buff);
+		strr = _append(args->arr[0], token, buff);
 		if (!stat(buff, &st))
 			return (strr);
-		if (*(token + _strlen(token) + 1) == ':')
-		{
-			if (!stat(s, &st))
-				return (s);
-		}
+		/*Invalid read size of 1, it is accsessing after null byte*/
+		/*if (*(token + _strlen(token) + 1) == ':')
+		  {
+			 if (!stat(args->arr[0], &st))
+				 return (args->arr[0]);
+				 }*/
 		token = _strtok(NULL, ":");
-		_memset(buff, 0, 100);
+		_memset(buff, 0, 256);
 	}
-	return (s);
+	return (args->arr[0]);
 }
 
 /**
