@@ -55,7 +55,7 @@ void _shell(arguments_t *args)
 	{
 		args->count++;
 		if (isatty(STDIN_FILENO))
-			write(STDERR_FILENO, "\033[31m(╯°□°)╯︵ ┻━┻  \033[0m", 42);
+			write(STDERR_FILENO, "(╯°□°)╯︵ ┻━┻ ", 29);
 		get = getline(&(args->buf), &len, stdin);
 		if (get == EOF)
 		{
@@ -86,6 +86,7 @@ void _shell(arguments_t *args)
 void _fork(arguments_t *args)
 {
 	pid_t pid = fork();
+	char **env = NULL;
 
 	if (pid < 0)
 	{
@@ -96,13 +97,14 @@ void _fork(arguments_t *args)
 	{
 		evaluate_var(args);
 		args->arr[0] = get_path(args->arr[0]);
-		if (execve(args->arr[0], args->arr, ltoa(args->head)) == -1)
+		if (execve(args->arr[0], args->arr, env = ltoa(args->head)) == -1)
 		{
 			error(args);
 			free(args->arr);
 			free(args->buf);
-			free(args->_environ);
+			//	free(args->_environ);
 			free_list(args->head);
+			free(env);
 			_exit(1);
 		}
 	}

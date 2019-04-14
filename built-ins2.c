@@ -174,6 +174,7 @@ int _unsetenv(arguments_t *args)
 {
 	list_t *tmp = args->head;
 	size_t i = 0, flag = 0;
+	(void) flag;
 
 	while (tmp)
 	{
@@ -186,8 +187,8 @@ int _unsetenv(arguments_t *args)
 		tmp = tmp->next;
 		++i;
 	}
-	if (flag)
-		args->_environ = ltoa(args->head);
+	/* if (flag) */
+	/* 	args->_environ = ltoa(args->head); */
 	return (1);
 }
 
@@ -207,7 +208,7 @@ int _setenv(arguments_t *args)
 	_strcat(temp, "\0");
 
 	add_node_end(&(args->head), temp);
-	args->_environ = ltoa(args->head);
+	//args->_environ = ltoa(args->head);
 	//free(temp);
 	return (1);
 }

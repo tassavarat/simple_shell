@@ -3,12 +3,13 @@
 char *_getenv2(char *name, arguments_t *env)
 {
 	int i = 0, len = _strlen(name);
+	(void) env;
 
-	while((env->_environ)[i])
+	while((environ)[i])
 	{
-		if (!_strncmp(name, (env->_environ)[i], len))
+		if (!_strncmp(name, (environ)[i], len))
 		{
-			name = (env->_environ)[i] + len + 1;
+			name = (environ)[i] + len + 1;
 			return (name);
 		}
 		i++;
@@ -24,9 +25,9 @@ int print_env(arguments_t *args)
 {
 	size_t i = 0;
 
-	while (args->_environ[i])
+	while (environ[i])
 	{
-		write(STDOUT_FILENO, args->_environ[i], _strlen(args->_environ[i]));
+		write(STDOUT_FILENO, environ[i], _strlen(environ[i]));
 		_puts("\n");
 		++i;
 	}
@@ -38,7 +39,7 @@ int call_exit(arguments_t *args)
 {
 	free(args->arr);
 	free(args->buf);
-	free(args->_environ);
+	//free(args->_environ);
 	free_list(args->head);
 	exit(0);
 }
