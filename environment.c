@@ -53,18 +53,20 @@ char *get_path(char *s)
 
 	if (!str)
 		return (s);
-	if (str[0] == ':')
-	{
-		if (!stat(s, &st))
-			return (s);
-	}
+	if (str[0] == ':' && !stat(s, &st))
+		return (s);
 	token = _strtok(str, ":");
 	while (token && *s)
 	{
 		strr = _append(s, token, buff);
-		token = _strtok(NULL, ":");
 		if (!stat(buff, &st))
 			return (strr);
+		if (*(token + _strlen(token) + 1) == ':')
+		{
+			if (!stat(s, &st))
+				return (s);
+		}
+		token = _strtok(NULL, ":");
 		_memset(buff, 0, 100);
 	}
 	return (s);
