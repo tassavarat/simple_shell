@@ -50,23 +50,34 @@ char *get_path(arguments_t *args)
 	char *str = _getenv2("PATH", args), *token, *strr;
 	static char buff[256];
 	struct stat st;
+	int i = 0, word = 0, count = 0;
 
 	if (!str)
 		return (args->arr[0]);
 	if (str[0] == ':' && !stat(args->arr[0], &st))
 		return (args->arr[0]);
+	while (str && str[i])
+	{
+		if (!word && str[i] != ':')
+		{
+			word = 1;
+			++count;
+		}
+		else if (word && str[i] == ':')
+			word = 0;
+		i++;
+	}
 	token = _strtok(str, ":");
 	while (token && args->arr[0])
 	{
 		strr = _append(args->arr[0], token, buff);
 		if (!stat(buff, &st))
 			return (strr);
-		/*Invalid read size of 1, it is accsessing after null byte*/
-		/*if (*(token + _strlen(token) + 1) == ':')
-		  {
-			 if (!stat(args->arr[0], &st))
-				 return (args->arr[0]);
-				 }*/
+		if (count-- > 1 && *(token + _strlen(token) + 1) == ':')
+		{
+			if (!stat(args->arr[0], &st))
+				return (args->arr[0]);
+		}
 		token = _strtok(NULL, ":");
 		_memset(buff, 0, 256);
 	}

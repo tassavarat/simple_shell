@@ -1,6 +1,45 @@
 #include "simple_shell.h"
 
 /**
+ * _atoi - converts string to an integer
+ * @s: takes string
+ *
+ * Return: returns an integer
+ */
+int _atoi(char *s)
+{
+	int i, minus, flag;
+	unsigned int n;
+
+	i = 0;
+	flag = 0;
+	minus = 0;
+	n = 0;
+	printf("%s\n", s);
+	while (s[i])
+	{
+		if (s[i] >= '0' && s[i] <= '9')
+		{
+			n = n * 10 + (s[i] - '0');
+			flag++;
+		}
+		else if (s[i] == '-')
+		{
+			minus++;
+		}
+		else if (flag && !(s[i] >= '0' && s[i] <= '9'))
+		{
+			break;
+		}
+		i++;
+	}
+	if (minus % 2 == 0)
+		return (n);
+	else
+		return (-n);
+}
+
+/**
  * print_env - Prints environmental variables
  * @args: Arguments struct
  * Return: 1 on success
@@ -20,10 +59,16 @@ int print_env(arguments_t *args)
 
 int call_exit(arguments_t *args)
 {
+	int number = 0;
+
+	if (args->arr[1])
+		number = _atoi(args->arr[1]) % 256;
+	printf("%d\n", number);
 	free(args->arr);
 	free(args->buf);
 	free_list(args->head);
-	exit(0);
+	printf("exit\n");
+	exit(23);
 }
 
 int custom_cd(arguments_t *args)
@@ -75,7 +120,7 @@ int builtins(arguments_t *args)
 	{
 		if (!_strcmp(args->arr[0], func_array[i].bi))
 		{
-			if (flag)
+			if (i == 2 && flag)
 			{
 				args->arr[1] = "OLDPWD", args->arr[2] = cwd = getcwd(cwd, 0);
 				_setenv(args);

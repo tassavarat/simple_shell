@@ -28,7 +28,6 @@ void initialize_struct(arguments_t *arguments __attribute__((unused)))
 	arguments->arr = NULL;
 	arguments->count = 0;
 	arguments->head = arrtol();
-	//	arguments->_environ = ltoa(arguments->head);
 }
 
 /**
