@@ -11,7 +11,7 @@ int main()
 {
 	arguments_t arguments;
 
-	//progress_bar();
+	progress_bar();
 	initialize_struct(&arguments);
 	signal(SIGINT, signal_handler);
 	_shell(&arguments);
@@ -47,7 +47,7 @@ void progress_bar(void)
 		// And the first (n-i) characters of s2
 		fprintf(stderr, "Progress: |%.*s%.*s| %02d\r", i, s1, n-i, s2, i);
 		fflush(stderr);  //< Flush the output (just in case)
-		usleep(10000);
+		usleep(1000000);
 	}
 
 	fprintf(stderr, "\n");
