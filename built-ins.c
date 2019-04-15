@@ -86,13 +86,13 @@ int call_exit(arguments_t *args)
  */
 int custom_cd(arguments_t *args)
 {
-	char *home = _getenv2("HOME", args);
+	char *home = _getenv("HOME", args);
 	char *cwd = NULL;
 	char *cwd1 = NULL;
 	char *oldwd = NULL;
 	char *arg = args->arr[1];
 
-	oldwd = _getenv2("OLDPWD", args);
+	oldwd = _getenv("OLDPWD", args);
 	args->arr[1] = "OLDPWD", args->arr[2] = cwd = getcwd(cwd, 0);
 	_setenv(args);
 	if (!arg || *arg == '~')

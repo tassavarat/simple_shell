@@ -24,20 +24,27 @@ char *convert(unsigned int num, int base)
 
 /**
  * error - Displays an error
- * @args.arr[0]: Command from user
+ * @args: Command from user
+ * @parent: Flag indicating whether parent or child process
  */
-void error(arguments_t *args)
+void error(arguments_t *args, int parent)
 {
 	char *number = convert(args->count, 10);
 
 	if (errno == ENOTDIR || errno == ENOENT)
 	{
-		_puts("sh: "), _puts(number), _puts(": "), _puts(args->arr[0]);
+		printerr("sh: "), printerr(number), printerr(": "), printerr(args->arr[0]);
 		write(STDERR_FILENO, ": not found\n", 12);
+	}
+	else if (parent)
+	{
+		printerr("sh: "), printerr(number), printerr(": "), printerr(args->arr[0]);
+		write(STDERR_FILENO, ": invalid number of arguments\n", 30);
 	}
 	else
 	{
-		_puts("sh: "), _puts(number), _puts(": "), _puts(args->arr[0]), _puts(": ");
+		printerr("sh: "), printerr(number), printerr(": "),
+			printerr(args->arr[0]), printerr(": ");
 		perror(NULL);
 	}
 }
@@ -85,7 +92,7 @@ void _shell(arguments_t *args)
 
 /**
  * _fork - Creates a buffer, forks, executes, free's if necessary
- * @args.arr: array of tokens
+ * @args: array of tokens
  */
 void _fork(arguments_t *args)
 {
@@ -100,9 +107,10 @@ void _fork(arguments_t *args)
 	if (pid == 0)
 	{
 		args->arr[0] = get_path(args);
-		if (execve(args->arr[0], args->arr, env = ltoa(args->head)) == -1)
+		env = ltoa(args->head);
+		if (execve(args->arr[0], args->arr, env) == -1)
 		{
-			error(args);
+			error(args, 0);
 			free(args->arr);
 			free(args->buf);
 			free_list(args->head);

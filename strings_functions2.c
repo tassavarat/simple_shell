@@ -77,3 +77,17 @@ int _strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return (0);
 }
+
+/**
+ * printerr - Prints error
+ * @str: Error message
+ *
+ * Return: Number of characters printed
+ */
+int printerr(char *str)
+{
+	size_t i = _strlen(str);
+
+	write(STDERR_FILENO, str, i);
+	return (i);
+}

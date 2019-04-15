@@ -36,6 +36,8 @@ typedef struct list_s
  * @buf: String
  * @arr: Array of strings
  * @count: Command count
+ * @status: Exit status
+ * @head: Pointer to first node
  */
 typedef struct arguments
 {
@@ -72,6 +74,7 @@ char *_memset(char *s, char b, unsigned int n);
 char *_strcat(char *dest, char *src);
 int _strcmp(const char *s1, const char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
+int printerr(char *str);
 
 /* built-ins.c */
 int print_env(arguments_t *args);
@@ -85,7 +88,6 @@ list_t *arrtol(void);
 char **ltoa(list_t *head);
 int _unsetenv(arguments_t *args);
 int _setenv(arguments_t *args);
-char *_getenv2(char *name, arguments_t *args);
 
 /* linked-list.c */
 size_t list_len(const list_t *h);
@@ -94,7 +96,7 @@ void free_list(list_t *head);
 list_t *add_node_end(list_t **head, const char *str);
 
 /* environment.c */
-char *_getenv(const char *name);
+char *_getenv(char *name, arguments_t *args);
 char *_append(char *s, char *token, char *buff);
 char *get_path(arguments_t *args);
 void evaluate_var(arguments_t *arguments);
@@ -104,6 +106,6 @@ void _fork(arguments_t *arguments);
 void _shell(arguments_t *arguments);
 char *convert(unsigned int num, int base);
 void signal_handler(int signum);
-void error(arguments_t *args);
+void error(arguments_t *args, int parent);
 
 #endif /*_SIMPLE_SHELL_H_*/

@@ -2,13 +2,13 @@
 
 /**
  * _append - Appends strings together
- * @args->arr[0]: User command to append
- * @token: PATH string to be appended
  * @buff: String to be returned
+ * @token: PATH string to be appended
+ * @s: User command to append
  *
  * Return: Appended string
  */
-char *_append(char *s, char *token, char *buff)
+char *_append(char *buff, char *token, char *s)
 {
 	_strcat(buff, token);
 	_strcat(buff, "/");
@@ -17,37 +17,39 @@ char *_append(char *s, char *token, char *buff)
 }
 
 /**
- * _getenv - Searches for files in the PATH
- * @name: String being searched
- *
- * Return: Path of corresponding name value
- * NULL on error
+ * _getenv - Prints environmental variables
+ * @name: name of the environmental variable
+ * @args: Arguments struct
+ * Return: value of variable
+ * NULL on failure
  */
-char *_getenv(const char *name) /* Deprecated function */
+char *_getenv(char *name, arguments_t *args)
 {
-	char *token;
-	size_t i = 0;
+	size_t len = _strlen(name);
+	list_t *head = args->head;
 
-	while (name && environ[i])
+	while (head)
 	{
-		token = _strtok(environ[i], "=");
-		if (!_strcmp(token, name))
-			return (_strtok(NULL, "="));
-		++i;
+		if (!_strncmp(name, head->str, len))
+		{
+			name = head->str + len + 1;
+			return (name);
+		}
+		head = head->next;
 	}
 	return (NULL);
 }
 
 /**
  * get_path - Looks for files in the current path
- * @args->arr[0]: String being evaluated
+ * @args: String being evaluated
  *
  * Return: Command location
  * String on fail
  */
 char *get_path(arguments_t *args)
 {
-	char *str = _getenv2("PATH", args), *token, *strr;
+	char *str = _getenv("PATH", args), *token, *strr;
 	static char buff[256];
 	struct stat st;
 	int i = 0, word = 0, count = 0;
@@ -70,14 +72,12 @@ char *get_path(arguments_t *args)
 	token = _strtok(str, ":");
 	while (token && args->arr[0])
 	{
-		strr = _append(args->arr[0], token, buff);
+		strr = _append(buff, token, args->arr[0]);
 		if (!stat(buff, &st))
 			return (strr);
-		if (count-- > 1 && *(token + _strlen(token) + 1) == ':')
-		{
-			if (!stat(args->arr[0], &st))
-				return (args->arr[0]);
-		}
+		if (count-- > 1 && *(token + _strlen(token) + 1) == ':' &&
+			!stat(args->arr[0], &st))
+			return (args->arr[0]);
 		token = _strtok(NULL, ":");
 		_memset(buff, 0, 256);
 	}
@@ -103,7 +103,6 @@ void evaluate_var(arguments_t *arguments)
 		}
 		i++;
 	}
-
 	if (flag)
 	{
 		((arguments->arr))[i]++;
@@ -118,7 +117,8 @@ void evaluate_var(arguments_t *arguments)
 			j++;
 		}
 	}
-	else if (flag && !_strcmp(arguments->arr[i], "?") && WIFEXITED(arguments->status))
+	else if (flag && !_strcmp(arguments->arr[i], "?")
+		&& WIFEXITED(arguments->status))
 	{
 		arguments->arr[i] = number = convert(WEXITSTATUS(arguments->status), 10);
 	}
