@@ -20,7 +20,6 @@ extern char **environ;
 /**
  * struct list_s - singly linked list
  * @str: string - (malloc'ed string)
- * @len: length of the string
  * @next: points to the next node
  *
  * Description: singly linked list node structure
@@ -48,7 +47,7 @@ typedef struct arguments
 } arguments_t;
 
 /**
- * struct built-ins - Struct for built-ins
+ * struct built_ins - Struct for built-ins
  * @bi: Name of built-ins
  * @f: Function pointer
  */
