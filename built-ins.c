@@ -42,6 +42,7 @@ int _atoi(char *s)
 /**
  * print_env - Prints environmental variables
  * @args: Arguments struct
+ *
  * Return: 1 on success
  */
 int print_env(arguments_t *args)
@@ -57,6 +58,12 @@ int print_env(arguments_t *args)
 	return (1);
 }
 
+/**
+ * call_exit - Exits shell and free's allocated memory
+ * @args: Arguments structure
+ *
+ * Return: Nothing
+ */
 int call_exit(arguments_t *args)
 {
 	int number = 0;
@@ -71,6 +78,12 @@ int call_exit(arguments_t *args)
 	exit(23);
 }
 
+/**
+ * custom_cd - Changes directory
+ * @args: Arguments structure
+ *
+ * Return: 1 on success
+ */
 int custom_cd(arguments_t *args)
 {
 	char *home = _getenv2("HOME", args);
@@ -102,6 +115,13 @@ int custom_cd(arguments_t *args)
 	return (1);
 }
 
+/**
+ * builtins - Function that determines which built in to call
+ * @args: Arguments structure
+ *
+ * Return: 1 on success
+ * 0 on error
+ */
 int builtins(arguments_t *args)
 {
 	built_ins_t func_array[] = {
