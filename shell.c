@@ -65,7 +65,8 @@ void _shell(arguments_t *args)
 			free_list(args->head);
 			return;
 		}
-		args->buf[get - 1] = '\0';
+		if (args->buf[get - 1] == '\n')
+			args->buf[get - 1] = '\0';
 		args->arr = tokarr(_strtok(args->buf, "#"));
 		if (!args->arr[0])
 		{

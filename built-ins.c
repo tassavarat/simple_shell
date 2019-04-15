@@ -26,31 +26,41 @@ int call_exit(arguments_t *args)
 	exit(0);
 }
 
-int custom_cd(arguments_t *args __attribute__((unused)))
+int custom_cd(arguments_t *args)
 {
 	char *home = _getenv2("HOME", args);
-	char *cwd = getcwd(cwd = NULL, 0);
-	char *oldwd = _getenv2("OLDPWD", args);
+	char *cwd = NULL;
+	char *cwd1 = NULL;
+	char *oldwd = NULL;
+	char *arg = args->arr[1];
 
-	if (!args->arr[1] || *args->arr[1] == '=' || !_strcmp(args->arr[1], "$HOME"))
+	oldwd = _getenv2("OLDPWD", args);
+	args->arr[1] = "OLDPWD", args->arr[2] = cwd = getcwd(cwd, 0);
+	_setenv(args);
+	if (!arg || *arg == '~')
 	{
 		chdir(home);
 	}
-
-	if (*args->arr[1] == '-')
+	else if (*arg == '-')
 	{
 		chdir(oldwd);
+		oldwd = NULL;
 	}
-	chdir(args->arr[1]);
+	else
+	{
+		chdir(arg);
+	}
+	args->arr[1] = "PWD", args->arr[2] = cwd1 = getcwd(cwd1, 0);
+	_setenv(args);
+	free(cwd1);
 	free(cwd);
-	free(args->arr);
 	return (1);
 }
 
 int builtins(arguments_t *args)
 {
 	built_ins_t func_array[] = {
-		{"head", print_env},
+		{"env", print_env},
 		{"exit", call_exit},
 		{"cd", custom_cd},
 		{"unsetenv", _unsetenv},
@@ -58,11 +68,20 @@ int builtins(arguments_t *args)
 		{NULL, NULL}
 	};
 	int  i = 0;
+	static int flag = 1;
+	char *cwd = NULL;
 
 	while (func_array[i].bi)
 	{
 		if (!_strcmp(args->arr[0], func_array[i].bi))
 		{
+			if (flag)
+			{
+				args->arr[1] = "OLDPWD", args->arr[2] = cwd = getcwd(cwd, 0);
+				_setenv(args);
+				flag = 0;
+				free(cwd);
+			}
 			func_array[i].f(args);
 			return (1);
 		}
