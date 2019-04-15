@@ -115,12 +115,12 @@ char **tokarr(char *buffer)
 	arr = malloc(sizeof(char *) * (count + 1));
 	if (!arr)
 		return (NULL);
-	token = _strtok(buffer, " ");
+	token = _strtok(buffer, " \t");
 	while (token)
 	{
 		arr[t] = token;
 		t++;
-		token = _strtok(NULL, " ");
+		token = _strtok(NULL, " \t");
 	}
 	arr[t] = NULL;
 	return (arr);
