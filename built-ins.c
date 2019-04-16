@@ -16,9 +16,7 @@ int _atoi(char *s)
 	while (s[i])
 	{
 		if (s[i] >= '0' && s[i] <= '9')
-		{
 			n = n * 10 + (s[i] - '0');
-		}
 		else
 			return (-1);
 		i++;
@@ -87,18 +85,11 @@ int custom_cd(arguments_t *args)
 
 	oldwd = getcwd(oldwd, 0);
 	if (args->arr[1] == NULL || *args->arr[1] == '~')
-	{
 		val = chdir(_getenv("HOME", args));
-	}
 	else if (*args->arr[1] == '-')
-	{
 		val = chdir(_getenv("OLDPWD", args));
-	}
 	else
-	{
 		val = chdir(args->arr[1]);
-	}
-
 	if (val == -1)
 	{
 		errno = NOTDIR;
@@ -139,9 +130,7 @@ int builtins(arguments_t *args)
 	while (func_array[i].bi)
 	{
 		if (!_strcmp(args->arr[0], func_array[i].bi))
-		{
 			return (func_array[i].f(args));
-		}
 		i++;
 	}
 	return (0);

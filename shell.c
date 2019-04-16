@@ -47,7 +47,6 @@ void error(arguments_t *args, int errortype)
 		write(STDERR_FILENO, ": no help topics match '", 24);
 		write(STDERR_FILENO, args->arr[1], _strlen(args->arr[1]));
 		write(STDERR_FILENO, "'.\n", 3);
-
 	}
 	else if (errno  == NOTDIR)
 	{
@@ -105,9 +104,7 @@ void _shell(arguments_t *args)
 		if (!val)
 			_fork(args);
 		else if (val == 5)
-		{
 			return;
-		}
 		free(args->arr);
 	}
 	free(args->buf);
