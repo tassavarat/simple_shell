@@ -52,7 +52,7 @@ void error(arguments_t *args, int errortype)
 	else if (errno  == NOTDIR)
 	{
 		printerr("sh: "), printerr(number), printerr(": "), printerr(args->arr[0]);
-		write(STDERR_FILENO, ": can't cd to ", 13);
+		write(STDERR_FILENO, ": can't cd to ", 14);
 		write(STDERR_FILENO, args->arr[1], _strlen(args->arr[1]));
 		write(STDERR_FILENO, "\n", 1);
 	}
