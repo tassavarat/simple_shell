@@ -25,9 +25,9 @@ char *convert(unsigned int num, int base)
 /**
  * error - Displays an error
  * @args: Command from user
- * @parent: Flag indicating whether parent or child process
+ * @errortype: Value indicating error type
  */
-void error(arguments_t *args, int parent)
+void error(arguments_t *args, int errortype)
 {
 	char *number = convert(args->count, 10);
 
@@ -36,10 +36,18 @@ void error(arguments_t *args, int parent)
 		printerr("sh: "), printerr(number), printerr(": "), printerr(args->arr[0]);
 		write(STDERR_FILENO, ": not found\n", 12);
 	}
-	else if (parent)
+	else if (errortype == 1)
 	{
 		printerr("sh: "), printerr(number), printerr(": "), printerr(args->arr[0]);
 		write(STDERR_FILENO, ": invalid number of arguments\n", 30);
+	}
+	else if (errortype == 2)
+	{
+		printerr("sh: "), printerr(number), printerr(": "), printerr(args->arr[0]);
+		write(STDERR_FILENO, ": no help topics match '", 24);
+		write(STDERR_FILENO, args->arr[1], _strlen(args->arr[1]));
+		write(STDERR_FILENO, "'.\n", 3);
+
 	}
 	else
 	{

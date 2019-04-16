@@ -111,6 +111,6 @@ void _fork(arguments_t *arguments);
 void _shell(arguments_t *arguments);
 char *convert(unsigned int num, int base);
 void signal_handler(int signum);
-void error(arguments_t *args, int parent);
+void error(arguments_t *args, int errortype);
 
 #endif /*_SIMPLE_SHELL_H_*/

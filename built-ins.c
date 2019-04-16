@@ -132,7 +132,7 @@ int builtins(arguments_t *args)
 		{NULL, NULL}
 	};
 	int  i = 0;
-	static int flag = 0;
+	static int flag;
 	char *cwd = NULL;
 
 	while (func_array[i].bi)
