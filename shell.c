@@ -130,7 +130,6 @@ void _fork(arguments_t *args)
  */
 void signal_handler(int signum __attribute__((unused)))
 {
-	signal(SIGINT, signal_handler);
 	_puts("\n");
 	write(STDERR_FILENO, "(╯°□°)╯︵ ┻━┻ ", 29);
 	fflush(stdout);

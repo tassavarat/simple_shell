@@ -84,3 +84,31 @@ int _setenv(arguments_t *args)
 	error(args, 1);
 	return (1);
 }
+
+/**
+ * _help - Display information about builtin commands
+ * @args: Arguments structure
+ *
+ *
+ */
+int _help(arguments_t *args __attribute__((unused)))
+{
+	if (args->arr[1])
+	{
+		if (!_strcmp(args->arr[1], "env"))
+			_puts("env\n");
+		else if (!_strcmp(args->arr[1], "exit"))
+			_puts("exit\n");
+		else if (!_strcmp(args->arr[1], "cd"))
+			_puts("cd\n");
+		else if (!_strcmp(args->arr[1], "unsetenv"))
+			_puts("unsetenv\n");
+		else if (!_strcmp(args->arr[1], "setenv"))
+			_puts("setenv\n");
+		else if (!_strcmp(args->arr[1], "help"))
+			_puts("help\n");
+		else
+			_puts("no match\n");
+	}
+	return (1);
+}

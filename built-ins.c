@@ -130,6 +130,7 @@ int builtins(arguments_t *args)
 		{"cd", custom_cd},
 		{"unsetenv", _unsetenv},
 		{"setenv", _setenv},
+		{"help", _help},
 		{NULL, NULL}
 	};
 	int  i = 0;

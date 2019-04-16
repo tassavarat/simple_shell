@@ -82,6 +82,7 @@ int builtins(arguments_t *args);
 int custom_cd(arguments_t *args);
 int call_exit(arguments_t *args);
 int print_env(arguments_t *args);
+int _help(arguments_t *args);
 
 /* built-ins2.c */
 list_t *arrtol(void);
