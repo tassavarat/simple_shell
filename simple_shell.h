@@ -10,8 +10,10 @@
 #include <signal.h>
 #include <sys/stat.h>
 #include <errno.h>
+#include <limits.h>
 
 #define F_FLUSH -1
+#define ILLNUM 666
 
 /* environmental variables */
 extern char **environ;
@@ -37,7 +39,6 @@ typedef struct list_s
  * @count: Command count
  * @status: Exit status
  * @head: Pointer to first node
- * @exit: Exit status
  */
 typedef struct arguments
 {
@@ -46,7 +47,6 @@ typedef struct arguments
 	int count;
 	pid_t status;
 	list_t *head;
-	int exit;
 } arguments_t;
 
 /**
