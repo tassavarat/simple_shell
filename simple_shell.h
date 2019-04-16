@@ -14,6 +14,7 @@
 
 #define F_FLUSH -1
 #define ILLNUM 666
+#define NOTDIR 777
 
 /* environmental variables */
 extern char **environ;
@@ -86,19 +87,20 @@ int builtins(arguments_t *args);
 int custom_cd(arguments_t *args);
 int call_exit(arguments_t *args);
 int print_env(arguments_t *args);
-int _help(arguments_t *args);
 
 /* built-ins2.c */
-list_t *arrtol(void);
-char **ltoa(list_t *head);
-int _unsetenv(arguments_t *args);
-int _setenv(arguments_t *args);
-
-/* linked-list.c */
 size_t list_len(const list_t *h);
 int delete_node_at_index(list_t **head, size_t index);
 void free_list(list_t *head);
 list_t *add_node_end(list_t **head, const char *str);
+list_t *arrtol(void);
+
+/* built-ins3.c */
+char **ltoa(list_t *head);
+int _unsetenv(arguments_t *args);
+int _setenv(arguments_t *args);
+int _help(arguments_t *args);
+void _help2(arguments_t *args);
 
 /* environment.c */
 char *_getenv(char *name, arguments_t *args);

@@ -10,7 +10,7 @@ int main(void)
 	arguments_t arguments;
 
 	initialize_struct(&arguments);
-       	signal(SIGINT, signal_handler);
+	signal(SIGINT, signal_handler);
 	_shell(&arguments);
 	return (0);
 }

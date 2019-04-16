@@ -101,7 +101,8 @@ int custom_cd(arguments_t *args)
 
 	if (val == -1)
 	{
-		error(args, 111);
+		errno = NOTDIR;
+		error(args, 3);
 	}
 	else
 	{
