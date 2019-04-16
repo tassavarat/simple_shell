@@ -55,7 +55,7 @@ void error(arguments_t *args, int parent)
  */
 void _shell(arguments_t *args)
 {
-	int get;
+	int get, val = 0;
 	size_t len = 0;
 
 	while (18)
@@ -81,8 +81,13 @@ void _shell(arguments_t *args)
 			continue;
 		}
 		evaluate_var(args);
-		if (!builtins(args))
+		val = builtins(args);
+		if (!val)
 			_fork(args);
+		else if (val == -1)
+		{
+			return;
+		}
 		free(args->arr);
 	}
 	free(args->buf);

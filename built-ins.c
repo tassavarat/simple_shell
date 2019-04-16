@@ -15,7 +15,6 @@ int _atoi(char *s)
 	flag = 0;
 	minus = 0;
 	n = 0;
-	printf("%s\n", s);
 	while (s[i])
 	{
 		if (s[i] >= '0' && s[i] <= '9')
@@ -70,12 +69,11 @@ int call_exit(arguments_t *args)
 
 	if (args->arr[1])
 		number = _atoi(args->arr[1]) % 256;
-	printf("%d\n", number);
 	free(args->arr);
 	free(args->buf);
 	free_list(args->head);
-	printf("exit\n");
-	exit(23);
+	args->exit = number;
+	return (-1);
 }
 
 /**
@@ -134,7 +132,7 @@ int builtins(arguments_t *args)
 		{NULL, NULL}
 	};
 	int  i = 0;
-	static int flag = 1;
+	static int flag = 0;
 	char *cwd = NULL;
 
 	while (func_array[i].bi)

@@ -14,7 +14,8 @@ int main(void)
 	initialize_struct(&arguments);
 	signal(SIGINT, signal_handler);
 	_shell(&arguments);
-	return (0);
+	printf("%d\n", arguments.exit);
+	return (arguments.exit);
 }
 
 /**
@@ -27,4 +28,5 @@ void initialize_struct(arguments_t *arguments __attribute__((unused)))
 	arguments->arr = NULL;
 	arguments->count = 0;
 	arguments->head = arrtol();
+	arguments->exit = 0;
 }

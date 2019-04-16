@@ -11,7 +11,6 @@
 #include <sys/stat.h>
 #include <errno.h>
 
-/* Symbolic constants */
 #define F_FLUSH -1
 
 /* environmental variables */
@@ -38,6 +37,7 @@ typedef struct list_s
  * @count: Command count
  * @status: Exit status
  * @head: Pointer to first node
+ * @exit: Exit status
  */
 typedef struct arguments
 {
@@ -46,6 +46,7 @@ typedef struct arguments
 	int count;
 	pid_t status;
 	list_t *head;
+	int exit;
 } arguments_t;
 
 /**
@@ -75,6 +76,9 @@ char *_strcat(char *dest, char *src);
 int _strcmp(const char *s1, const char *s2);
 int _strncmp(const char *s1, const char *s2, size_t n);
 int printerr(char *str);
+
+/* string_functions3.c */
+char *_strdup(const char *str);
 
 /* built-ins.c */
 int print_env(arguments_t *args);

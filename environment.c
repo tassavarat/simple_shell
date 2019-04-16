@@ -58,6 +58,8 @@ char *get_path(arguments_t *args)
 		return (args->arr[0]);
 	if (str[0] == ':' && !stat(args->arr[0], &st))
 		return (args->arr[0]);
+	if (!_strncmp(args->arr[0], "./", 2))
+		return (args->arr[0]);
 	while (str && str[i])
 	{
 		if (!word && str[i] != ':')
@@ -76,7 +78,7 @@ char *get_path(arguments_t *args)
 		if (!stat(buff, &st))
 			return (strr);
 		if (count-- > 1 && *(token + _strlen(token) + 1) == ':' &&
-			!stat(args->arr[0], &st))
+		    !stat(args->arr[0], &st))
 			return (args->arr[0]);
 		token = _strtok(NULL, ":");
 		_memset(buff, 0, 256);
