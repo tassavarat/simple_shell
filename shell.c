@@ -49,6 +49,11 @@ void error(arguments_t *args, int errortype)
 		write(STDERR_FILENO, "'.\n", 3);
 
 	}
+	else if (errno == ILLNUM)
+	{
+		printerr("sh: "), printerr(number), printerr(": "), printerr(args->arr[0]);
+		printerr(": Illegal number: "), printerr(args->arr[1]), printerr("\n");
+	}
 	else
 	{
 		printerr("sh: "), printerr(number), printerr(": "),
@@ -92,7 +97,7 @@ void _shell(arguments_t *args)
 		val = builtins(args);
 		if (!val)
 			_fork(args);
-		else if (val == -1)
+		else if (val == 5)
 		{
 			return;
 		}

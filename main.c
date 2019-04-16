@@ -1,7 +1,5 @@
 #include "simple_shell.h"
 
-void progress_bar(void);
-
 /**
  * main - Simple shell
  *
@@ -12,10 +10,9 @@ int main(void)
 	arguments_t arguments;
 
 	initialize_struct(&arguments);
-	signal(SIGINT, signal_handler);
+       	signal(SIGINT, signal_handler);
 	_shell(&arguments);
-	printf("%d\n", arguments.exit);
-	return (arguments.exit);
+	return (0);
 }
 
 /**
@@ -24,9 +21,15 @@ int main(void)
  */
 void initialize_struct(arguments_t *arguments __attribute__((unused)))
 {
+	char buf[PATH_MAX] = {0};
+	char *cwd = getcwd(cwd = NULL, 0);
+
 	arguments->buf = NULL;
 	arguments->arr = NULL;
 	arguments->count = 0;
 	arguments->head = arrtol();
-	arguments->exit = 0;
+	_strcat(buf, "OLDPWD=");
+	_strcat(buf, cwd);
+	add_node_end(&arguments->head, buf);
+	free(cwd);
 }

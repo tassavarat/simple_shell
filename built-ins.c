@@ -8,34 +8,24 @@
  */
 int _atoi(char *s)
 {
-	int i, minus, flag;
-	unsigned int n;
+	unsigned int i = 0;
+	unsigned long n = 0;
 
-	i = 0;
-	flag = 0;
-	minus = 0;
-	n = 0;
+	if (*s == '+')
+		s++;
 	while (s[i])
 	{
 		if (s[i] >= '0' && s[i] <= '9')
 		{
 			n = n * 10 + (s[i] - '0');
-			flag++;
 		}
-		else if (s[i] == '-')
-		{
-			minus++;
-		}
-		else if (flag && !(s[i] >= '0' && s[i] <= '9'))
-		{
-			break;
-		}
+		else
+			return (-1);
 		i++;
 	}
-	if (minus % 2 == 0)
-		return (n);
-	else
-		return (-n);
+	if (n > INT_MAX)
+		return (-1);
+	return (n);
 }
 
 /**
@@ -68,12 +58,19 @@ int call_exit(arguments_t *args)
 	int number = 0;
 
 	if (args->arr[1])
-		number = _atoi(args->arr[1]) % 256;
+	{
+		number = _atoi(args->arr[1]);
+		if (number == -1)
+		{
+			errno = ILLNUM;
+			error(args, 21);
+			return (1);
+		}
+	}
 	free(args->arr);
 	free(args->buf);
 	free_list(args->head);
-	args->exit = number;
-	return (-1);
+	exit(number);
 }
 
 /**
@@ -84,32 +81,37 @@ int call_exit(arguments_t *args)
  */
 int custom_cd(arguments_t *args)
 {
-	char *home = _getenv("HOME", args);
 	char *cwd = NULL;
-	char *cwd1 = NULL;
 	char *oldwd = NULL;
-	char *arg = args->arr[1];
+	int val = 0;
 
-	oldwd = _getenv("OLDPWD", args);
-	args->arr[1] = "OLDPWD", args->arr[2] = cwd = getcwd(cwd, 0);
-	_setenv(args);
-	if (!arg || *arg == '~')
+	oldwd = getcwd(oldwd, 0);
+	if (args->arr[1] == NULL || *args->arr[1] == '~')
 	{
-		chdir(home);
+		val = chdir(_getenv("HOME", args));
 	}
-	else if (*arg == '-')
+	else if (*args->arr[1] == '-')
 	{
-		chdir(oldwd);
-		oldwd = NULL;
+		val = chdir(_getenv("OLDPWD", args));
 	}
 	else
 	{
-		chdir(arg);
+		val = chdir(args->arr[1]);
 	}
-	args->arr[1] = "PWD", args->arr[2] = cwd1 = getcwd(cwd1, 0);
-	_setenv(args);
-	free(cwd1);
-	free(cwd);
+
+	if (val == -1)
+	{
+		error(args, 111);
+	}
+	else
+	{
+		args->arr[1] = "OLDPWD", args->arr[2] = oldwd;
+		_setenv(args);
+		args->arr[1] = "PWD", args->arr[2] = cwd = getcwd(cwd, 0);
+		_setenv(args);
+		free(cwd);
+	}
+	free(oldwd);
 	return (1);
 }
 
@@ -132,22 +134,12 @@ int builtins(arguments_t *args)
 		{NULL, NULL}
 	};
 	int  i = 0;
-	static int flag;
-	char *cwd = NULL;
 
 	while (func_array[i].bi)
 	{
 		if (!_strcmp(args->arr[0], func_array[i].bi))
 		{
-			if (i == 2 && flag)
-			{
-				args->arr[1] = "OLDPWD", args->arr[2] = cwd = getcwd(cwd, 0);
-				_setenv(args);
-				flag = 0;
-				free(cwd);
-			}
-			func_array[i].f(args);
-			return (1);
+			return (func_array[i].f(args));
 		}
 		i++;
 	}
