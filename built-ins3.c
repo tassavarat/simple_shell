@@ -35,17 +35,15 @@ char **ltoa(list_t *head)
 int _unsetenv(arguments_t *args)
 {
 	list_t *tmp = args->head;
-	size_t i = 0, flag = 0;
-	(void) flag;
+	size_t i = 0;
 
-	if (args->arr[1])
+	if (args->arr[1] && !args->arr[2])
 	{
 		while (tmp)
 		{
 			if (!(_strncmp(tmp->str, args->arr[1], _strlen(args->arr[1]))))
 			{
 				delete_node_at_index(&(args->head), i);
-				flag = 1;
 				break;
 			}
 			tmp = tmp->next;
