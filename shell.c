@@ -31,38 +31,39 @@ void error(arguments_t *args, int errortype)
 {
 	char *number = convert(args->count, 10);
 
+	printerr(args->argv), printerr(": ");
 	if (errno == ENOTDIR || errno == ENOENT)
 	{
-		printerr("sh: "), printerr(number), printerr(": "), printerr(args->arr[0]);
+		printerr(number), printerr(": "), printerr(args->arr[0]);
 		write(STDERR_FILENO, ": not found\n", 12);
 	}
 	else if (errortype == 1)
 	{
-		printerr("sh: "), printerr(number), printerr(": "), printerr(args->arr[0]);
+		printerr(number), printerr(": "), printerr(args->arr[0]);
 		write(STDERR_FILENO, ": invalid number of arguments\n", 30);
 	}
 	else if (errortype == 2)
 	{
-		printerr("sh: "), printerr(number), printerr(": "), printerr(args->arr[0]);
+		printerr(number), printerr(": "), printerr(args->arr[0]);
 		write(STDERR_FILENO, ": no help topics match '", 24);
 		write(STDERR_FILENO, args->arr[1], _strlen(args->arr[1]));
 		write(STDERR_FILENO, "'.\n", 3);
 	}
 	else if (errno  == NOTDIR)
 	{
-		printerr("sh: "), printerr(number), printerr(": "), printerr(args->arr[0]);
+		printerr(number), printerr(": "), printerr(args->arr[0]);
 		write(STDERR_FILENO, ": can't cd to ", 14);
 		write(STDERR_FILENO, args->arr[1], _strlen(args->arr[1]));
 		write(STDERR_FILENO, "\n", 1);
 	}
 	else if (errno == ILLNUM)
 	{
-		printerr("sh: "), printerr(number), printerr(": "), printerr(args->arr[0]);
+		printerr(number), printerr(": "), printerr(args->arr[0]);
 		printerr(": Illegal number: "), printerr(args->arr[1]), printerr("\n");
 	}
 	else
 	{
-		printerr("sh: "), printerr(number), printerr(": "),
+		printerr(number), printerr(": "),
 			printerr(args->arr[0]), printerr(": ");
 		perror(NULL);
 	}
@@ -77,13 +78,14 @@ void _shell(arguments_t *args)
 	int get, val = 0;
 	size_t len = 0;
 
-	while (18)
+	while (1)
 	{
 		args->count++;
 		if (isatty(STDIN_FILENO))
-			write(STDERR_FILENO, "(╯°□°)╯︵ ┻━┻ ", 29);
+			write(STDERR_FILENO, "$ ", 2);
 		get = getline(&(args->buf), &len, stdin);
-		if (get == EOF)
+		/* get = _getline(&(args->buf), 1); */
+		if (get == -1)
 		{
 			if (isatty(STDIN_FILENO))
 				_puts("\n");
@@ -153,6 +155,6 @@ void _fork(arguments_t *args)
 void signal_handler(int signum __attribute__((unused)))
 {
 	_puts("\n");
-	write(STDERR_FILENO, "(╯°□°)╯︵ ┻━┻ ", 29);
+	write(STDERR_FILENO, "$ ", 2);
 	fflush(stdout);
 }

@@ -16,6 +16,10 @@
 #define ILLNUM 666
 #define NOTDIR 777
 
+int _getc(int fd);
+char* _fgets(char* s, int n, int fd);
+int _getline(char **lineptr, int fd);
+
 /* environmental variables */
 extern char **environ;
 
@@ -40,6 +44,7 @@ typedef struct list_s
  * @count: Command count
  * @status: Exit status
  * @head: Pointer to first node
+ * @argv: Name of the executable
  */
 typedef struct arguments
 {
@@ -48,6 +53,7 @@ typedef struct arguments
 	int count;
 	pid_t status;
 	list_t *head;
+	char *argv;
 } arguments_t;
 
 /**

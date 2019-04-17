@@ -5,10 +5,12 @@
  *
  * Return: 0;
  */
-int main(void)
+int main(int ac, char **argv)
 {
 	arguments_t arguments;
 
+	(void) ac;
+	arguments.argv = argv[0];
 	initialize_struct(&arguments);
 	signal(SIGINT, signal_handler);
 	_shell(&arguments);
@@ -21,15 +23,15 @@ int main(void)
  */
 void initialize_struct(arguments_t *arguments __attribute__((unused)))
 {
-	char buf[PATH_MAX] = {0};
-	char *cwd = getcwd(cwd = NULL, 0);
+	/* char buf[PATH_MAX] = {0}; */
+	/* char *cwd = getcwd(cwd = NULL, 0); */
 
 	arguments->buf = NULL;
 	arguments->arr = NULL;
 	arguments->count = 0;
 	arguments->head = arrtol();
-	_strcat(buf, "OLDPWD=");
-	_strcat(buf, cwd);
-	add_node_end(&arguments->head, buf);
-	free(cwd);
+	/* _strcat(buf, "OLDPWD="); */
+	/* _strcat(buf, cwd); */
+	/* add_node_end(&arguments->head, buf); */
+	/* free(cwd); */
 }
