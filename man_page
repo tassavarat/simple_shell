@@ -1,42 +1,42 @@
-.Dd 16/4/19=               \" DATE
-.Dt Simple shell 1      \" Program name and manual section number
+.Dd 16/4/19=              
+.Dt Simple shell 1
 .Os Ubuntu
-.Sh NAME                 \" Section Header - required - don't modify
+.Sh NAME                 
 .Nm Simple shell,
 .\" The following lines are read in generating the apropos(man -k) database. Use only key
 .\" words here as the database is built based on the words here and in the .ND line.
 .Nm Super shell(),
 .Nm Improved shell.
 .Nd Custom implementation of shell.
-.Sh SYNOPSIS             \" Section Header - required - don't modify
+.Sh SYNOPSIS             
 .Nm
-.Op Fl abcd              \" [-abcd]
-.Op Fl a Ar path         \" [-a path]
-.Op Ar file              \" [file]
-.Op Ar                   \" [file ...]
-.Ar arg0                 \" Underlined argument - use .Ar anywhere to underline
-arg2 ...                 \" Arguments
-.Sh DESCRIPTION          \" Section Header - required - don't modify
-Use the .Nm macro to refer to your program throughout the man page like such:
+.Op Fl abcd             
+.Op Fl a Ar path        
+.Op Ar file              
+.Op Ar                  
+.Ar arg0                 
+arg2 ...                
+.Sh DESCRIPTION          
+Custom shell is imitation of sh, with some built-ins, it has got limited functionality. This is a two week project from holbertonschool. 
 .Nm
 Underlining is accomplished with the .Ar macro like this:
 .Ar underlined text .
-.Pp                      \" Inserts a space
+.Pp                      
 A list of items with descriptions:
-.Bl -tag -width -indent  \" Begins a tagged list
-.It item a               \" Each item preceded by .It macro
+.Bl -tag -width -indent  
+.It item a               
 Description of item a
 .It item b
 Description of item b
-.El                      \" Ends the list
+.El                      
 .Pp
 A list of flags and their descriptions:
-.Bl -tag -width -indent  \" Differs from above in tag removed
-.It Fl a                 \"-a flag as a list item
+.Bl -tag -width -indent  
+.It Fl a                 
 Description of -a flag
 .It Fl b
 Description of -b flag
-.El                      \" Ends the list
+.El                      
 .Pp
 .\" .Sh ENVIRONMENT      \" May not be needed
 .\" .Bl -tag -width "ENV_VAR_1" -indent \" ENV_VAR_1 is width of the string ENV_VAR_1
@@ -71,7 +71,7 @@ FILE_2 description
 .Xr b 3
 .Sh BUGS
 .Bl
-No bugs yet
+We are not handling &&, ||, ; and other special characters
 
 \" Document known, unremedied bugs
 .\" .Sh HISTORY           \" Document history if command behaves in a unique manner
