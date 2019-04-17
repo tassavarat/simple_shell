@@ -1,6 +1,6 @@
 # An implementation of sh in C programming language
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://github.com/narnat/printf)
+[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://github.com/narnat/simple_shell)
 
 ## Overview
 
@@ -12,8 +12,8 @@ Table of contents
 <!--ts-->
    * [Overview](#overview)
    * [Table of contents](#table-of-contents)
-   * [General Requirements](#general-requirements)
-   * [Authorized functions and macros](#authorized-functions-and-macros)
+   * [General Requirements](#requirements)
+   * [Authorized functions and macros](#list-of-allowed-functions-and-system-calls)
    * [Compilation](#compilation)
    * [Tasks](#tasks)
    * [Installation](#installation)
@@ -175,4 +175,5 @@ $
 
 ## Authors
 [Tim Assavarat](https://github.com/tassavarat)
+
 [Farrukh Akhrarov](https://github.com/narnat)
