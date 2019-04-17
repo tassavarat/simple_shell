@@ -17,7 +17,7 @@
 #define NOTDIR 777
 
 int _getc(int fd);
-char* _fgets(char* s, int n, int fd);
+char *_fgets(char *s, int n, int fd);
 int _getline(char **lineptr, int fd);
 
 /* environmental variables */
@@ -71,6 +71,7 @@ typedef struct built_ins
 
 /* main.c */
 void initialize_struct(arguments_t *arguments);
+int _exit_status(void);
 
 /* strings_functions.c */
 char *_strtok(char *buffer, const char *delim);

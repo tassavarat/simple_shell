@@ -139,7 +139,7 @@ void _fork(arguments_t *args)
 			free(args->buf);
 			free_list(args->head);
 			free(env);
-			_exit(127);
+			_exit(_exit_status());
 		}
 	}
 	else

@@ -2,7 +2,8 @@
 
 /**
  * main - Simple shell
- *
+ * @ac: number of args
+ * @argv: args vector
  * Return: 0;
  */
 int main(int ac, char **argv)
@@ -35,4 +36,21 @@ void initialize_struct(arguments_t *arguments __attribute__((unused)))
 	/* _strcat(buf, cwd); */
 	/* add_node_end(&arguments->head, buf); */
 	/* free(cwd); */
+}
+
+/**
+ * _exit_status - exit status
+ * Return: Exit number
+ */
+int _exit_status(void)
+{
+	int number = 0;
+
+	if (errno == ILLNUM)
+		number = 2;
+	else if (errno == EACCES)
+		number = 126;
+	else if (errno == ENOTDIR || errno == ENOENT)
+		number = 127;
+	return (number);
 }
