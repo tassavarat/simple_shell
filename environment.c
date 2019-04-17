@@ -50,7 +50,7 @@ char *_getenv(char *name, arguments_t *args)
 char *get_path(arguments_t *args)
 {
 	char *str = _getenv("PATH", args), *token, *strr;
-	static char buff[256];
+	static char buff[256 + PATH_MAX];
 	struct stat st;
 	int i = 0, word = 0, count = 0;
 
@@ -81,7 +81,7 @@ char *get_path(arguments_t *args)
 		    !stat(args->arr[0], &st))
 			return (args->arr[0]);
 		token = _strtok(NULL, ":");
-		_memset(buff, 0, 256);
+		_memset(buff, 0, 256 + PATH_MAX);
 	}
 	return (args->arr[0]);
 }
