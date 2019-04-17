@@ -4,7 +4,7 @@
 
 ## Overview
 
-**_printf()** - is a Holberton school group project. The task is to write a custom version of printf() from standard library.
+**Simple Shell** - is a Holberton school group project. The task is to write a simple UNIX command interpreter.
 
 Table of contents
 =================
@@ -15,7 +15,6 @@ Table of contents
    * [General Requirements](#general-requirements)
    * [Authorized functions and macros](#authorized-functions-and-macros)
    * [Compilation](#compilation)
-   * [Format Specifiers](#format-specifiers)
    * [Tasks](#tasks)
    * [Installation](#installation)
    * [Examples](#examples)
@@ -25,36 +24,102 @@ Table of contents
 
 *************************************************************************
 
-## General Requirements
-
-Here are the general requirements:
+## Requirements
+### General
 
   - Allowed editors: vi, vim, emacs
   - All your files will be compiled on Ubuntu 14.04 LTS
-  - Your programs and functions will be compiled with gcc 4.8.4 using the flags **-Wall -Werror -Wextra** and **-pedantic**
+  - Your programs and functions will be compiled with gcc 4.8.4 using the flags `-Wall` `-Werror` `-Wextra` and `-pedantic`
   - All your files should end with a new line
-  - *A README.md* file, at the root of the folder of the project is mandatory
-Your code should use the Betty style. It will be checked using [betty-style.pl](https://github.com/holbertonschool/Betty/blob/master/betty-style.pl) and [betty-doc.pl](https://github.com/holbertonschool/Betty/blob/master/betty-doc.pl)
+  - A `README.md` file, at the root of the folder of the project is mandatory
+Your code should use the `Betty` style. It will be checked using [`betty-style.pl`](https://github.com/holbertonschool/Betty/blob/master/betty-style.pl) and [`betty-doc.pl`](https://github.com/holbertonschool/Betty/blob/master/betty-doc.pl)
   - No more than 5 functions per file
-  - In the following examples, the main.c files are shown as examples. You can use them to test your functions, but you don’t have to push them to your repo (if you do we won’t take them into account). We will use our own main.c files at compilation. Our main.c files might be different from the one shown in the examples
-  - Don’t forget to push your header file
   - All your header files should be include guarded
+  - Use system calls only when you need to ([`why?`](https://www.quora.com/Why-are-system-calls-expensive-in-operating-systems))
+## More Info
+### Output
+- Unless specified otherwise, your program __must have the exact same output__ as `sh` (`/bin/sh`) as well as the exact same error output.
+- The only difference is when you print an error, the name of the program must be equivalent to your `argv[0]` (See below)
 
+Example of error with `sh`:
+```
+$ echo "qwerty" | /bin/sh
+/bin/sh: 1: qwerty: not found
+$ echo "qwerty" | /bin/../bin/sh
+/bin/../bin/sh: 1: qwerty: not found
+$
+```
+Same error with your program `hsh`:
+```
+$ echo "qwerty" | ./hsh
+./hsh: 1: qwerty: not found
+$ echo "qwerty" | ./././hsh
+./././hsh: 1: qwerty: not found
+$
+```
 ******************************************************************************
 
-## Authorized functions and macros
+## List of allowed functions and system calls
 
-  - `write (man 2 write)`
-
-******************************************************************************
+- `access` (man 2 access)
+- `chdir` (man 2 chdir)
+- `close` (man 2 close)
+- `closedir` (man 3 closedir)
+- `execve` (man 2 execve)
+- `exit` (man 3 exit)
+- `_exit` (man 2 _exit)
+- `fflush` (man 3 fflush)
+- `fork` (man 2 fork)
+- `free` (man 3 free)
+- `getcwd` (man 3 getcwd)
+- `getline` (man 3 getline)
+- `isatty` (man 3 isatty)
+- `kill` (man 2 kill)
+- `malloc` (man 3 malloc)
+- `open` (man 2 open)
+- `opendir` (man 3 opendir)
+- `perror` (man 3 perror)
+- `read` (man 2 read)
+- `readdir` (man 3 readdir)
+- `signal` (man 2 signal)
+- `stat` (__xstat) (man 2 stat)
+- `lstat` (__lxstat) (man 2 lstat)
+- `fstat` (__fxstat) (man 2 fstat)
+- `strtok` (man 3 strtok)
+- `wait` (man 2 wait)
+- `waitpid` (man 2 waitpid)
+- `wait3` (man 2 wait3)
+- `wait4` (man 2 wait4)
+- `write` (man 2 write)
 
 ## Compilation
-  -  Your code will be compiled this way:
-  ```$ gcc -Wall -Werror -Wextra -pedantic *.c```
-  - As a consequence, be careful not to push any c file containing a main function in the root directory of your project (you could have a test folder containing all your tests files including main functions)
-  - Our main files will include your main header file (`holberton.h`): `#include holberton.h`
-  - You might want to look at the `gcc` flag `-Wno-format` when testing with your `_printf` and the standard `printf`.
+Your shell will be compiled this way:
 
+    gcc -Wall -Werror -Wextra -pedantic *.c -o hsh
+## Testing
+Your shell should work like this in interactive mode:
+```
+$ ./hsh
+($) /bin/ls
+hsh main.c shell.c
+($)
+($) exit
+$
+```
+But also in non-interactive mode:
+```
+$ echo "/bin/ls" | ./hsh
+hsh main.c shell.c test_ls_2
+$
+$ cat test_ls_2
+/bin/ls
+/bin/ls
+$
+$ cat test_ls_2 | ./hsh
+hsh main.c shell.c test_ls_2
+hsh main.c shell.c test_ls_2
+$
+```
 *******************************************************************************
 
 ### Tasks
@@ -70,31 +135,27 @@ Click here to expand
 
 ## Installation
 
-In order to use this custom `_printf` function you need only `<unistd.h>` library
-First, clone this repository to your local machine:
+In order to use this Simple Shell function you need to clone this repository to your local machine
 ```
-$ git clone https://github.com/narnat/printf.git
+$ git clone https://github.com/narnat/simple_shell.git
 ```
-
-After cloning go to the printf folder
-
+After cloning go to the simple_shell folder
 ```
-$ cd printf
+$ cd simple_shell
 ```
 You can compile it with your your C source code
-
 ```
-$ gcc *.c your_C_source_code -o output
+$ gcc *.c hsh
 ```
 But the simplest solution is to make it portable, in other words to create a static library:
 ```
 gcc *.c
-ar -rc libprintf.a *.o
-ranlib libprintf.a
+ar -rc libhsh.a *.o
+ranlib libhsh.a
 ```
-Now you will have `printf.a` static library, and all you have to do is compile your code with this library:
+Now you will have `hsh.a` static library, and all you have to do is compile your code with this library:
 ```
-gcc your_C_source_code -L. -lprintf
+gcc *.c -L. -lhsh
 ```
 
 *****************************************************************************************************
@@ -102,82 +163,16 @@ gcc your_C_source_code -L. -lprintf
 
 ## Examples
 ```
-farrukh@ubuntu:~/printf$ cat main.c
-#include <limits.h>
-#include <stdio.h>
-#include "holberton.h"
-
-/**
- * main - Entry point
- *
- * Return: Always 0
- */
-int main(void)
-{
-    int len;
-    int len2;
-    unsigned int ui;
-    void *addr;
-
-    len = _printf("Let's try to printf a simple sentence.\n");
-    len2 = printf("Let's try to printf a simple sentence.\n");
-    ui = (unsigned int)INT_MAX + 1024;
-    addr = (void *)0x7ffe637541f0;
-    _printf("Length:[%d, %i]\n", len, len);
-    printf("Length:[%d, %i]\n", len2, len2);
-    _printf("Negative:[%d]\n", -762534);
-    printf("Negative:[%d]\n", -762534);
-    _printf("Unsigned:[%u]\n", ui);
-    printf("Unsigned:[%u]\n", ui);
-    _printf("Unsigned octal:[%o]\n", ui);
-    printf("Unsigned octal:[%o]\n", ui);
-    _printf("Unsigned hexadecimal:[%x, %X]\n", ui, ui);
-    printf("Unsigned hexadecimal:[%x, %X]\n", ui, ui);
-    _printf("Character:[%c]\n", 'H');
-    printf("Character:[%c]\n", 'H');
-    _printf("String:[%s]\n", "I am a string !");
-    printf("String:[%s]\n", "I am a string !");
-    _printf("Address:[%p]\n", addr);
-    printf("Address:[%p]\n", addr);
-    len = _printf("Percent:[%%]\n");
-    len2 = printf("Percent:[%%]\n");
-    _printf("Len:[%d]\n", len);
-    printf("Len:[%d]\n", len2);
-    _printf("Unknown:[%r]\n");
-    printf("Unknown:[%r]\n");
-    return (0);
-}
-farrukh@ubuntu:~/printf$ gcc -Wall -Wextra -Werror -pedantic -Wno-format *.c
-farrukh@ubuntu:~/printf$ ./printf
-Let's try to printf a simple sentence.
-Let's try to printf a simple sentence.
-Length:[39, 39]
-Length:[39, 39]
-Negative:[-762534]
-Negative:[-762534]
-Unsigned:[2147484671]
-Unsigned:[2147484671]
-Unsigned octal:[20000001777]
-Unsigned octal:[20000001777]
-Unsigned hexadecimal:[800003ff, 800003FF]
-Unsigned hexadecimal:[800003ff, 800003FF]
-Character:[H]
-Character:[H]
-String:[I am a string !]
-String:[I am a string !]
-Address:[0x7ffe637541f0]
-Address:[0x7ffe637541f0]
-Percent:[%]
-Percent:[%]
-Len:[12]
-Len:[12]
-Unknown:[%r]
-Unknown:[%r]
-farrukh@ubuntu:~/printf$
+$ ./hsh
+(╯°□°)╯︵ ┻━┻ ls
+a.out         built-ins.c    hsh       README.md                 simple_shell.h        strings_functions.c
+built-ins2.c  environment.c  main.c    sf-0119_shell_test_suite  strings_functions2.c  test
+built-ins3.c  holberton      man_page  shell.c                   strings_functions3.c  which
+(╯°□°)╯︵ ┻━┻ 
+(╯°□°)╯︵ ┻━┻ exit
+$  
 ```
-
 
 ## Authors
 [Tim Assavarat](https://github.com/tassavarat)
-
 [Farrukh Akhrarov](https://github.com/narnat)
