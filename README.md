@@ -147,17 +147,6 @@ You can compile it with your your C source code
 ```
 $ gcc *.c hsh
 ```
-But the simplest solution is to make it portable, in other words to create a static library:
-```
-gcc *.c
-ar -rc libhsh.a *.o
-ranlib libhsh.a
-```
-Now you will have `hsh.a` static library, and all you have to do is compile your code with this library:
-```
-gcc *.c -L. -lhsh
-```
-
 *****************************************************************************************************
 
 
