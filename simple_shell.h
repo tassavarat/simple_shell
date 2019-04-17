@@ -45,6 +45,7 @@ typedef struct list_s
  * @status: Exit status
  * @head: Pointer to first node
  * @argv: Name of the executable
+ * @exit_status: Exit status of the previous cmd
  */
 typedef struct arguments
 {
@@ -54,6 +55,7 @@ typedef struct arguments
 	pid_t status;
 	list_t *head;
 	char *argv;
+	int exit_status;
 } arguments_t;
 
 /**

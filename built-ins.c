@@ -65,6 +65,10 @@ int call_exit(arguments_t *args)
 			return (1);
 		}
 	}
+	else
+	{
+		number = args->exit_status;
+	}
 	free(args->arr);
 	free(args->buf);
 	free_list(args->head);

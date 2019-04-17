@@ -139,12 +139,16 @@ void _fork(arguments_t *args)
 			free(args->buf);
 			free_list(args->head);
 			free(env);
-			_exit(1);
+			_exit(127);
 		}
 	}
 	else
 	{
 		waitpid(-1, &(args->status), 0);
+		if (WIFEXITED(args->status))
+		{
+			args->exit_status = WEXITSTATUS(args->status);
+		}
 	}
 }
 

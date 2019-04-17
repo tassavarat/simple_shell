@@ -30,6 +30,7 @@ void initialize_struct(arguments_t *arguments __attribute__((unused)))
 	arguments->arr = NULL;
 	arguments->count = 0;
 	arguments->head = arrtol();
+	arguments->exit_status = 0;
 	/* _strcat(buf, "OLDPWD="); */
 	/* _strcat(buf, cwd); */
 	/* add_node_end(&arguments->head, buf); */
