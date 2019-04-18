@@ -32,7 +32,7 @@ char *_getenv(char *name, arguments_t *args)
 	{
 		if (!_strncmp(name, head->str, len))
 		{
-			name = head->str + len + 1;
+			name = head->str + len;
 			return (name);
 		}
 		head = head->next;
@@ -49,7 +49,7 @@ char *_getenv(char *name, arguments_t *args)
  */
 char *get_path(arguments_t *args)
 {
-	char *str = _getenv("PATH", args), *token, *strr;
+	char *str = _getenv("PATH=", args), *token, *strr;
 	static char buff[256 + PATH_MAX];
 	struct stat st;
 	int i = 0, word = 0, count = 0;

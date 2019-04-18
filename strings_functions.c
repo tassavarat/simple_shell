@@ -136,6 +136,6 @@ int _puts(char *str)
 {
 	size_t i = _strlen(str);
 
-	write(1, str, i);
+	write(STDOUT_FILENO, str, i);
 	return (i);
 }

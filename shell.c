@@ -85,7 +85,7 @@ void _shell(arguments_t *args)
 			write(STDERR_FILENO, "$ ", 2);
 		get = getline(&(args->buf), &len, stdin);
 		/* get = _getline(&(args->buf), 1); */
-		if (get == -1)
+		if (get == EOF)
 		{
 			if (isatty(STDIN_FILENO))
 				_puts("\n");
