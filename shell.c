@@ -91,7 +91,7 @@ void _shell(arguments_t *args)
 				_puts("\n");
 			free(args->buf);
 			free_list(args->head);
-			return;
+			exit(args->exit_status);
 		}
 		if (args->buf[get - 1] == '\n')
 			args->buf[get - 1] = '\0';
