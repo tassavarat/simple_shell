@@ -42,3 +42,29 @@ int _isalpha(int c)
 	else
 		return (0);
 }
+
+/**
+ * comments - splits comments
+ * @str: Takes string
+ *
+ * Return: string without comments
+ */
+
+char *comments(char *str)
+{
+	size_t i;
+	char *s = NULL;
+
+	i = 0;
+	s = str;
+	while (str && str[i])
+	{
+		if (str[0] == '#' || (str[i] == '#' && str[i - 1] == ' '))
+		{
+			*s = '\0';
+		}
+		s++;
+		i++;
+	}
+	return (str);
+}

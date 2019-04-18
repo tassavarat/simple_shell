@@ -95,7 +95,7 @@ void _shell(arguments_t *args)
 		}
 		if (args->buf[get - 1] == '\n')
 			args->buf[get - 1] = '\0';
-		args->arr = tokarr(_strtok(args->buf, "#"));
+		args->arr = tokarr(comments(args->buf));
 		if (!args->arr[0])
 		{
 			free(args->arr);
