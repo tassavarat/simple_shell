@@ -45,6 +45,9 @@ This shell runs any executable file from the PATH environmental variable, becaus
 .Nm pwd
     This will print crrent working directory
 
+.Nm echo
+    This will print specified text to stdout
+
 .Nm BUILT-INS
 
 .Nm env
@@ -69,8 +72,8 @@ This shell runs any executable file from the PATH environmental variable, becaus
 .Bl -tag -width "~/simple_shell/" -compact
 .It Pa /simple_shell/main.c
 It is main file with entry point
-.It Pa /Users/joeuser/Library/really_long_file_name
-FILE_2 description
+.It Pa /simple_shell/shell.c
+It contains main function, or core of the shell 
 .El                      \" Ends the list
 .Sh SEE ALSO
 .Xr bash 1 ,
