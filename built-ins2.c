@@ -35,9 +35,9 @@ int delete_node_at_index(list_t **head, size_t index)
 	if (index == 0)
 	{
 		*head = current->next;
+		return (1);
 		free(current->str);
 		free(current);
-		return (1);
 	}
 	for (i = 0; i < index - 1; i++)
 	{
