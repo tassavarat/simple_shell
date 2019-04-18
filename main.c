@@ -46,9 +46,9 @@ int _exit_status(void)
 {
 	int number = 0;
 
-	if (errno == ILLNUM || errno == NOTDIR)
-		number = 2;
-	else if (errno == EACCES)
+	/* if (errno == ILLNUM || errno == NOTDIR) */
+	/* 	number = 2; */
+	if (errno == EACCES)
 		number = 126;
 	else if (errno == ENOTDIR || errno == ENOENT)
 		number = 127;

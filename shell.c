@@ -101,7 +101,7 @@ void _shell(arguments_t *args)
 			free(args->arr);
 			continue;
 		}
-		evaluate_var(args);
+		/* evaluate_var(args); */
 		val = builtins(args);
 		if (!val)
 			_fork(args);
@@ -139,7 +139,11 @@ void _fork(arguments_t *args)
 			free(args->buf);
 			free_list(args->head);
 			free(env);
-			_exit(_exit_status());
+			if (errno == ENOENT)
+				exit(127);
+			if (errno == EACCES)
+				exit(126);
+			exit(errno);
 		}
 	}
 	else
