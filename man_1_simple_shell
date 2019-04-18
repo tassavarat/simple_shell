@@ -40,6 +40,17 @@ This shell runs any executable file from the PATH environmental variable, becaus
 .Ar ls, pwd, which and so on.
 
     For full list of commands go to your directories of your PATH environmental variable. For example, /bin directory contains most of the commands, like ls, pwd, which and grep.
+    .Nm ls -l /tmp
+    This input will result in the list of files and directories in /tmp directory in long format
+
+    .Nm BUILT-INS
+    .Nm env
+    It is built-in command which will print environmental variables
+    .Nm setenv
+    A command which will set environmental variable
+    .Nm exit
+    Exits from the shell, it takes unsigned
+    .Ar exit status
 
 
 
