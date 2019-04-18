@@ -29,7 +29,7 @@ char *_strdup(const char *str)
 }
 
 /**
- * _isalpha - chechks is the c is alpha
+ * _isalpha - checks if the c is alpha
  * @c: takes character in ASCII
  *
  * Return: 0 or 1
@@ -37,7 +37,7 @@ char *_strdup(const char *str)
 
 int _isalpha(int c)
 {
-	if ((c >= 'a' && c <= 'z') || ((c >= 'A') && (c <= 'Z')) || c == '_')
+	if ((c >= 'a' && c <= 'z') || ((c >= 'A' && c <= 'Z')) || c == '_')
 		return (1);
 	else
 		return (0);

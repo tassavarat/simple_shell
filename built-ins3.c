@@ -37,13 +37,14 @@ int _unsetenv(arguments_t *args)
 	list_t *tmp = args->head;
 	size_t i = 0;
 
-	if (args->arr[1] && _isalpha(args->ac))
+	if (args->arr[1])
 	{
 		while (tmp)
 		{
 			if (!(_strncmp(tmp->str, args->arr[1], _strlen(args->arr[1]))))
 			{
 				delete_node_at_index(&(args->head), i);
+				args->index = i;
 				break;
 			}
 			tmp = tmp->next;
@@ -75,7 +76,8 @@ int _setenv(arguments_t *args)
 		_strcat(temp, variable);
 		_strcat(temp, "=");
 		_strcat(temp, value);
-		add_node_end(&(args->head), temp);
+		/* add_node_end(&(args->head), temp); */
+		insert_node_at_index(&(args->head), args->index, temp);
 		return (1);
 	}
 	error(args, 1);

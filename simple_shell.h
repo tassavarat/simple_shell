@@ -47,6 +47,7 @@ typedef struct list_s
  * @argv: Name of the executable
  * @ac: argument count
  * @exit_status: Exit status of the previous cmd
+ * @index: Index
  */
 typedef struct arguments
 {
@@ -58,6 +59,7 @@ typedef struct arguments
 	char *argv;
 	int ac;
 	int exit_status;
+	int index;
 } arguments_t;
 
 /**
@@ -113,6 +115,9 @@ int _unsetenv(arguments_t *args);
 int _setenv(arguments_t *args);
 int _help(arguments_t *args);
 void _help2(arguments_t *args);
+
+/* built-insn4.c */
+list_t *insert_node_at_index(list_t **head, unsigned int idx, char *str);
 
 /* environment.c */
 char *_getenv(char *name, arguments_t *args);
