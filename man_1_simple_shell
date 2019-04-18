@@ -2,48 +2,47 @@
 .Dt Simple shell 1
 .Os Ubuntu
 .Sh NAME                 
-.Nm Simple shell,
-.Nm Super shell(),
-.Nm Improved shell.
+.Nm "Simple shell"
 .Nd Custom implementation of shell.
 .Sh SYNOPSIS             
 .Nm
-.Op Fl abcd             
-.Op Fl a Ar path        
-.Op Ar file              
-.Op Ar                  
-.Ar arg0                 
-arg2 ...                
-.Sh DESCRIPTION          
+
+.Nd It takes no arguments
+.Sh DESCRIPTION
+
 Custom shell is imitation of sh, with some built-ins, it has limited functionality. This is a two week project from holbertonschool. It has basic functionality and executes ELF files from PATH variable, even though when full path to the executable is not provided. Also, this shell can handle commands with arguments
 
-.Nm
-Underlining is accomplished with the .Ar macro like this:
-.Ar underlined text .
-.Pp                      
-A list of items with descriptions:
-.Bl -tag -width -indent  
-.It item a               
-Description of item a
-.It item b
-Description of item b
-.El                      
-.Pp
-A list of flags and their descriptions:
-.Bl -tag -width -indent  
-.It Fl a                 
-Description of -a flag
-.It Fl b
-Description of -b flag
-.El                      
-.Pp
-.\" .Sh ENVIRONMENT      \" May not be needed
-.\" .Bl -tag -width "ENV_VAR_1" -indent \" ENV_VAR_1 is width of the string ENV_VAR_1
-.\" .It Ev ENV_VAR_1
-.\" Description of ENV_VAR_1
-.\" .It Ev ENV_VAR_2
-.\" Description of ENV_VAR_2
-.\" .El
+.Nm "This is the decription from actual manual page of shell:"
+
+
+    	  The shell is a command that reads lines from either a file or the terminal, interprets them, and generally executes other commands.
+     It is the program that is running when a user logs into the system (although a user can select a different shell with the chsh(1)
+     command).  The shell implements a language that has flow control constructs, a macro facility that provides a variety of features in
+     addition to data storage, along with built in history and line editing capabilities.  It incorporates many features to aid interac‐
+     tive use and has the advantage that the interpretative language is common to both interactive and non-interactive use (shell
+     scripts).  That is, commands can be typed directly to the running shell or can be put into a file and the file can be executed
+     directly by the shell.
+
+.Nm Lexical Structure
+
+     The shell reads input in terms of lines from a file and breaks it up into words at whitespace (blanks and tabs), and at certain
+     sequences of characters that are special to the shell called “operators”.  There are two types of operators: control operators
+     and redirection operators (their meaning is discussed later).  Following is a list of operators:
+
+           Control operators:
+                 & && ( ) ; ;; | || <newline>
+
+           Redirection operators:
+                 < > >| << >> <& >& <<- <>
+
+.Sh Examples
+This shell runs any executable file from the PATH environmental variable, because it prepends directories to the commands. It means that you can execute commands such as
+.Ar ls, pwd, which and so on.
+
+    For full list of commands go to your directories of your PATH environmental variable. For example, /bin directory contains most of the commands, like ls, pwd, which and grep.
+
+
+
 .Sh FILES                \" File used or created by the topic of the man page
 .Bl -tag -width "/Users/joeuser/Library/really_long_file_name" -compact
 .It Pa /usr/share/file_name
