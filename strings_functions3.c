@@ -27,3 +27,18 @@ char *_strdup(const char *str)
 	s[i++] = '\0';
 	return (s);
 }
+
+/**
+ * _isalpha - chechks is the c is alpha
+ * @c: takes character in ASCII
+ *
+ * Return: 0 or 1
+ */
+
+int _isalpha(int c)
+{
+	if ((c >= 'a' && c <= 'z') || ((c >= 'A') && (c <= 'Z')) || c == '_')
+		return (1);
+	else
+		return (0);
+}

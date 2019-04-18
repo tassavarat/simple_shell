@@ -40,7 +40,7 @@ void error(arguments_t *args, int errortype)
 	else if (errortype == 1)
 	{
 		printerr(number), printerr(": "), printerr(args->arr[0]);
-		write(STDERR_FILENO, ": invalid number of arguments\n", 30);
+		printerr(": bad variable name\n");
 	}
 	else if (errortype == 2)
 	{

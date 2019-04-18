@@ -10,7 +10,7 @@ int main(int ac, char **argv)
 {
 	arguments_t arguments;
 
-	(void) ac;
+	arguments.ac = ac;
 	arguments.argv = argv[0];
 	initialize_struct(&arguments);
 	signal(SIGINT, signal_handler);

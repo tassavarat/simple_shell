@@ -37,7 +37,7 @@ int _unsetenv(arguments_t *args)
 	list_t *tmp = args->head;
 	size_t i = 0;
 
-	if (args->arr[1] && !args->arr[2])
+	if (args->arr[1] && _isalpha(args->ac))
 	{
 		while (tmp)
 		{
