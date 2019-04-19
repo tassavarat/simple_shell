@@ -67,7 +67,6 @@ int _setenv(arguments_t *args)
 	char *variable = NULL;
 	char *value = NULL;
 	char temp[PATH_MAX] = {0};
-	list_t *t;
 
 	if (args->arr[1] && args->arr[2])
 	{
@@ -78,7 +77,7 @@ int _setenv(arguments_t *args)
 		_strcat(temp, "=");
 		_strcat(temp, value);
 		/* add_node_end(&(args->head), temp); */
-		t = insert_node_at_index(&(args->head), args->index, temp);
+		insert_node_at_index(&(args->head), args->index, temp);
 		return (1);
 	}
 	error(args, 1);
