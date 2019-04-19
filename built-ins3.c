@@ -41,10 +41,10 @@ int _unsetenv(arguments_t *args)
 	{
 		while (tmp)
 		{
+			args->index = i;
 			if (!(_strncmp(tmp->str, args->arr[1], _strlen(args->arr[1]))))
 			{
 				delete_node_at_index(&(args->head), i);
-				args->index = i;
 				break;
 			}
 			tmp = tmp->next;
@@ -67,6 +67,7 @@ int _setenv(arguments_t *args)
 	char *variable = NULL;
 	char *value = NULL;
 	char temp[PATH_MAX] = {0};
+	list_t *t;
 
 	if (args->arr[1] && args->arr[2])
 	{
@@ -77,7 +78,7 @@ int _setenv(arguments_t *args)
 		_strcat(temp, "=");
 		_strcat(temp, value);
 		/* add_node_end(&(args->head), temp); */
-		insert_node_at_index(&(args->head), args->index, temp);
+		t = insert_node_at_index(&(args->head), args->index, temp);
 		return (1);
 	}
 	error(args, 1);
