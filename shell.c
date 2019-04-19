@@ -32,7 +32,7 @@ void error(arguments_t *args, int errortype)
 	char *number = convert(args->count, 10);
 
 	printerr(args->argv), printerr(": ");
-	if (errno == ENOTDIR || errno == ENOENT)
+	if (errno == ENOTDIR || errno == ENOENT || errno == ENOTTY)
 	{
 		printerr(number), printerr(": "), printerr(args->arr[0]);
 		write(STDERR_FILENO, ": not found\n", 12);
@@ -132,18 +132,15 @@ void _fork(arguments_t *args)
 	{
 		args->arr[0] = get_path(args);
 		env = ltoa(args->head);
-		if (execve(args->arr[0], args->arr, env) == -1)
+		if ((*args->arr[0] != '/' && !_getenv("PATH=", args))
+		    || (execve(args->arr[0], args->arr, env) == -1))
 		{
 			error(args, 0);
 			free(args->arr);
 			free(args->buf);
 			free_list(args->head);
 			free(env);
-			if (errno == ENOENT)
-				exit(127);
-			if (errno == EACCES)
-				exit(126);
-			exit(errno);
+			exit(127);
 		}
 	}
 	else

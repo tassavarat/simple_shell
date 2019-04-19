@@ -32,7 +32,7 @@ char *_getenv(char *name, arguments_t *args)
 	{
 		if (!_strncmp(name, head->str, len))
 		{
-			name = head->str + len + 1;
+			name = head->str + len;
 			return (name);
 		}
 		head = head->next;
