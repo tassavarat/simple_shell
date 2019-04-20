@@ -120,36 +120,37 @@ void _shell(arguments_t *args)
  */
 void _fork(arguments_t *args)
 {
-	pid_t pid = fork();
+	pid_t pid = 0;
 	char **env = NULL;
 
-	if (pid < 0)
+	if (*args->arr[0] == '/' || _getenv("PATH=", args))
 	{
-		_puts("Continue");
-		return;
-	}
-	if (pid == 0)
-	{
-		args->arr[0] = get_path(args);
-		env = ltoa(args->head);
-		if ((*args->arr[0] != '/' && !_getenv("PATH=", args))
-		    || (execve(args->arr[0], args->arr, env) == -1))
+		pid = fork();
+		if (pid < 0)
+			return;
+		if (pid == 0)
 		{
-			error(args, 0);
-			free(args->arr);
-			free(args->buf);
-			free_list(args->head);
-			free(env);
-			exit(127);
+			args->arr[0] = get_path(args);
+			env = ltoa(args->head);
+			if (execve(args->arr[0], args->arr, env) == -1)
+			{
+				error(args, 0), free(args->arr), free(args->buf);
+				free_list(args->head), free(env), exit(127);
+			}
+		}
+		else
+		{
+			waitpid(-1, &(args->status), 0);
+			if (WIFEXITED(args->status))
+			{
+				args->exit_status = WEXITSTATUS(args->status);
+			}
 		}
 	}
 	else
 	{
-		waitpid(-1, &(args->status), 0);
-		if (WIFEXITED(args->status))
-		{
-			args->exit_status = WEXITSTATUS(args->status);
-		}
+		error(args, 0), free(args->arr), free(args->buf);
+		free_list(args->head), exit(127);
 	}
 }
 
