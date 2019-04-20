@@ -62,6 +62,7 @@ int call_exit(arguments_t *args)
 		{
 			errno = ILLNUM;
 			error(args, 21);
+			args->exit_status = 2;
 			return (1);
 		}
 	}
