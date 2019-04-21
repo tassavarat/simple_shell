@@ -32,7 +32,7 @@ void error(arguments_t *args, int errortype)
 	char *number = convert(args->count, 10);
 
 	printerr(args->argv), printerr(": ");
-	if (errno == ENOTDIR || errno == ENOENT)
+	if (errno == ENOTDIR || errno == ENOENT || errno == ENOTTY)
 	{
 		printerr(number), printerr(": "), printerr(args->arr[0]);
 		write(STDERR_FILENO, ": not found\n", 12);
@@ -91,11 +91,11 @@ void _shell(arguments_t *args)
 				_puts("\n");
 			free(args->buf);
 			free_list(args->head);
-			return;
+			exit(args->exit_status);
 		}
 		if (args->buf[get - 1] == '\n')
 			args->buf[get - 1] = '\0';
-		args->arr = tokarr(_strtok(args->buf, "#"));
+		args->arr = tokarr(comments(args->buf));
 		if (!args->arr[0])
 		{
 			free(args->arr);
@@ -120,39 +120,34 @@ void _shell(arguments_t *args)
  */
 void _fork(arguments_t *args)
 {
-	pid_t pid = fork();
+	pid_t pid = 0;
 	char **env = NULL;
 
-	if (pid < 0)
+	if (*args->arr[0] == '/' || _getenv("PATH=", args))
 	{
-		_puts("Continue");
-		return;
-	}
-	if (pid == 0)
-	{
-		args->arr[0] = get_path(args);
-		env = ltoa(args->head);
-		if (execve(args->arr[0], args->arr, env) == -1)
+		pid = fork();
+		if (pid < 0)
+			return;
+		if (pid == 0)
 		{
-			error(args, 0);
-			free(args->arr);
-			free(args->buf);
-			free_list(args->head);
-			free(env);
-			if (errno == ENOENT)
-				exit(127);
-			if (errno == EACCES)
-				exit(126);
-			exit(errno);
+			args->arr[0] = get_path(args);
+			env = ltoa(args->head);
+			if (execve(args->arr[0], args->arr, env) == -1)
+			{
+				error(args, 0), free(args->arr), free(args->buf);
+				free_list(args->head), free(env), exit(127);
+			}
+		}
+		else
+		{
+			waitpid(-1, &(args->status), 0);
+			if (WIFEXITED(args->status))
+				args->exit_status = WEXITSTATUS(args->status);
 		}
 	}
 	else
 	{
-		waitpid(-1, &(args->status), 0);
-		if (WIFEXITED(args->status))
-		{
-			args->exit_status = WEXITSTATUS(args->status);
-		}
+		errno = ENOTDIR, args->exit_status = 127,  error(args, 0);
 	}
 }
 

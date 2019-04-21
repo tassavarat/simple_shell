@@ -41,10 +41,10 @@ int _unsetenv(arguments_t *args)
 	{
 		while (tmp)
 		{
+			args->index = i;
 			if (!(_strncmp(tmp->str, args->arr[1], _strlen(args->arr[1]))))
 			{
 				delete_node_at_index(&(args->head), i);
-				args->index = i;
 				break;
 			}
 			tmp = tmp->next;

@@ -62,6 +62,7 @@ int call_exit(arguments_t *args)
 		{
 			errno = ILLNUM;
 			error(args, 21);
+			args->exit_status = 2;
 			return (1);
 		}
 	}
@@ -83,15 +84,21 @@ int call_exit(arguments_t *args)
  */
 int custom_cd(arguments_t *args)
 {
-	char *cwd = NULL;
+	char *cwd = NULL, *temp = NULL;
 	char *oldwd = NULL;
 	int val = 0;
+	char *home = _getenv("HOME=", args);
 
 	oldwd = getcwd(oldwd, 0);
-	if (args->arr[1] == NULL || *args->arr[1] == '~')
-		val = chdir(_getenv("HOME", args));
+	if (args->arr[1] == NULL)
+	{
+		val = chdir(home ? home : oldwd);
+	}
 	else if (*args->arr[1] == '-')
-		val = chdir(_getenv("OLDPWD", args));
+	{
+		val = chdir(_getenv("OLDPWD=", args) ? _getenv("OLDPWD=", args) : oldwd);
+		_puts(getcwd(temp, 0)), _puts("\n"), free(temp);
+	}
 	else
 		val = chdir(args->arr[1]);
 	if (val == -1)
@@ -99,7 +106,7 @@ int custom_cd(arguments_t *args)
 		errno = NOTDIR;
 		error(args, 3);
 	}
-	else
+	if (1)
 	{
 		args->arr[1] = "OLDPWD", args->arr[2] = oldwd;
 		_setenv(args);

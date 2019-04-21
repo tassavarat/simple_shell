@@ -94,6 +94,7 @@ int printerr(char *str);
 /* string_functions3.c */
 char *_strdup(const char *str);
 int _isalpha(int c);
+char *comments(char *s);
 
 /* built-ins.c */
 int print_env(arguments_t *args);
