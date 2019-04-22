@@ -95,6 +95,7 @@ int printerr(char *str);
 char *_strdup(const char *str);
 int _isalpha(int c);
 char *comments(char *s);
+char *_strchr(char *s, char c);
 
 /* built-ins.c */
 int print_env(arguments_t *args);

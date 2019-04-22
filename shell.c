@@ -108,7 +108,7 @@ void _shell(arguments_t *args)
 			free(args->arr);
 			pt1 = pt2;
 			if (pt1)
-				pt2 = strchr(pt1, ';');
+				pt2 = _strchr(pt1, ';');
 			if (pt2)
 				*pt2++ = '\0';
 		}
