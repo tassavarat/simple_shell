@@ -77,10 +77,10 @@ void _shell(arguments_t *args)
 {
 	int get, val = 0;
 	size_t len = 0;
+	char *pt1, *pt2;
 
 	while (1)
 	{
-		args->count++;
 		if (isatty(STDIN_FILENO))
 			write(STDERR_FILENO, "$ ", 2);
 		get = getline(&(args->buf), &len, stdin);
@@ -89,29 +89,32 @@ void _shell(arguments_t *args)
 		{
 			if (isatty(STDIN_FILENO))
 				_puts("\n");
-			free(args->buf);
-			free_list(args->head);
-			exit(args->exit_status);
+			free(args->buf), free_list(args->head), exit(args->exit_status);
 		}
-		if (args->buf[get - 1] == '\n')
-			args->buf[get - 1] = '\0';
-		args->arr = tokarr(comments(args->buf));
-		if (!args->arr[0])
+		pt1 = args->buf, pt2 = strchr(pt1, ';');
+		if (pt2)
+			*pt2++ = '\0';
+		while (pt1)
 		{
+			args->count++, args->arr = tokarr(comments(pt1));
+			if (!args->arr[0])
+			{
+				free(args->arr);
+				break;
+			}
+			/* evaluate_var(args); */
+			val = builtins(args);
+			if (!val)
+				_fork(args);
 			free(args->arr);
-			continue;
+			pt1 = pt2;
+			if (pt1)
+				pt2 = _strchr(pt1, ';');
+			if (pt2)
+				*pt2++ = '\0';
 		}
-		/* evaluate_var(args); */
-		val = builtins(args);
-		if (!val)
-			_fork(args);
-		else if (val == 5)
-			return;
-		free(args->arr);
 	}
-	free(args->buf);
-	free_list(args->head);
-	free(args->arr);
+	free(args->buf), free_list(args->head), free(args->arr);
 }
 
 /**
