@@ -1,28 +1,6 @@
 #include "simple_shell.h"
 
 /**
- * _putchar - writes the character c to stdout
- * @c: The character to print
- *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
- */
-int _putchar(int c)
-{
-	static int i;
-	static char buf[BUFSIZ];
-
-	if (c == F_FLUSH || i >= BUFSIZ)
-	{
-		write(1, buf, i);
-		i = 0;
-	}
-	if (c != F_FLUSH)
-		buf[i++] = c;
-	return (1);
-}
-
-/**
  * _strtok - Splits a string
  * @buffer: String being evaluated
  * @delim: Delimiter
@@ -71,6 +49,31 @@ char *_strtok(char *buffer, const char *delim)
 		return (NULL);
 	return (p);
 }
+
+
+
+/**
+ * _putchar - writes the character c to stdout
+ * @c: The character to print
+ *
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
+ */
+int _putchar(int c)
+{
+	static int i;
+	static char buf[BUFSIZ];
+
+	if (c == F_FLUSH || i >= BUFSIZ)
+	{
+		write(1, buf, i);
+		i = 0;
+	}
+	if (c != F_FLUSH)
+		buf[i++] = c;
+	return (1);
+}
+
 
 /**
  * _strlen - Calculates length of a string

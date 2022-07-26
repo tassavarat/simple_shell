@@ -1,46 +1,6 @@
 #include "simple_shell.h"
 
 /**
- * _append - Appends strings together
- * @buff: String to be returned
- * @token: PATH string to be appended
- * @s: User command to append
- *
- * Return: Appended string
- */
-char *_append(char *buff, char *token, char *s)
-{
-	_strcat(buff, token);
-	_strcat(buff, "/");
-	_strcat(buff, s);
-	return (buff);
-}
-
-/**
- * _getenv - Prints environmental variables
- * @name: name of the environmental variable
- * @args: Arguments struct
- * Return: value of variable
- * NULL on failure
- */
-char *_getenv(char *name, arguments_t *args)
-{
-	size_t len = _strlen(name);
-	list_t *head = args->head;
-
-	while (head)
-	{
-		if (!_strncmp(name, head->str, len))
-		{
-			name = head->str + len;
-			return (name);
-		}
-		head = head->next;
-	}
-	return (NULL);
-}
-
-/**
  * get_path - Looks for files in the current path
  * @args: String being evaluated
  *
@@ -85,6 +45,48 @@ char *get_path(arguments_t *args)
 	}
 	return (args->arr[0]);
 }
+
+
+/**
+ * _append - Appends strings together
+ * @buff: String to be returned
+ * @token: PATH string to be appended
+ * @s: User command to append
+ *
+ * Return: Appended string
+ */
+char *_append(char *buff, char *token, char *s)
+{
+	_strcat(buff, token);
+	_strcat(buff, "/");
+	_strcat(buff, s);
+	return (buff);
+}
+
+/**
+ * _getenv - Prints environmental variables
+ * @name: name of the environmental variable
+ * @args: Arguments struct
+ * Return: value of variable
+ * NULL on failure
+ */
+char *_getenv(char *name, arguments_t *args)
+{
+	size_t len = _strlen(name);
+	list_t *head = args->head;
+
+	while (head)
+	{
+		if (!_strncmp(name, head->str, len))
+		{
+			name = head->str + len;
+			return (name);
+		}
+		head = head->next;
+	}
+	return (NULL);
+}
+
 
 /**
  * evaluate_var - Looks for variables in the current environmental  * variables
